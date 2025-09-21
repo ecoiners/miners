@@ -17,7 +17,7 @@ function App() {
 				<Route path="/earn" element={<Earn />} />
 				<Route path="/airdrop" element={<Airdrop />} />
 				<Route path="/refferals" element={<Refferals />} />
-			</Route>
+			</Routes>
 		</Router>
   );
 };

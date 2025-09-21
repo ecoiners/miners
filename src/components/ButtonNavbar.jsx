@@ -9,59 +9,46 @@ import { AiFillHome, AiFillCalendar } from "react-icons/ai";
 import { FaGift, FaDollarSign, FaUserFriends } from "react-icons/fa";
 
 export default function ButtonNavbar() {
-	const navigate = useNavigate();
-	const location = useLocation();
-	
-	const [currentScreen, setCurrentScreen] = useState("/");
-	
-	useEffect(() => {
-		setCurrentScreen(location.pathname);
-	}, [location]);
-	
-	const navItems = [
-		{
-			path: "/",
-			icon: <AiFillHome size={22}/>,
-			label: "Home",
-		},
-		{
-			path: "/dayli",
-			icon: <AiFillCalendar size={22} />,
-			label: "Dayli",
-		},
-		{
-			path: "/earn",
-			icon: <FaDollarSign size={22} />,
-			label: "Earn",
-		},
-		{
-			path: "/airdrop",
-			icon: <FaGift size={22} />,
-			label: "Airdrop",
-		},
-		{
-			path: "/refferals",
-			icon: <FaUserFriends size={22} />,
-			label: "Refferals",
-		}
-	];
-	
-	return (
-		<nav className="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-green-600 z-50">
-		  <div className="flex justify-around items-center py-2 mx-auto w-full">
-			  {
-					navItems.map((item) => (
-						<button 
-						  key={item.path}
-							onClick={() => navigate(item.path)}
-							className={`flex flex-col px-3 py-1 transition-colors duration-200 text-white ${currentScreen === item.path ? "bg-green-600" : ""}`}
-						>
-						  {item.icon}
-						  <span className="text-xs mt-1">{item.label}</span>
-						</button>
-					))
-				}
-			</div>
-		</nav>
-	);
-};
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const [currentScreen, setCurrentScreen] = useState("/");
+
+  useEffect(() => {
+    setCurrentScreen(location.pathname);
+  }, [location]);
+
+  const navItems = [
+    { path: "/", icon: AiFillHome },
+    { path: "/dayli", icon: AiFillCalendar },
+    { path: "/earn", icon: FaDollarSign },
+    { path: "/airdrop", icon: FaGift },
+    { path: "/refferals", icon: FaUserFriends },
+  ];
+
+  return (
+    <nav className="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 z-50">
+      <div className="flex justify-around items-center py-2 mx-auto w-full">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          return (
+            <button
+              key={item.path}
+              onClick={() => navigate(item.path)}
+              className="flex flex-col items-center"
+            >
+              <Icon
+                size={26}
+                className={
+                  currentScreen === item.path
+                    ? "text-green-500"
+                    : "text-gray-400"
+                }
+              />
+            </button>
+          );
+        })}
+      </div>
+    </nav>
+  );
+}

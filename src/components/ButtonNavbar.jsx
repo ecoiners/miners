@@ -7,15 +7,15 @@ export default function ButtonNavbar() {
   const location = useLocation();
 
   const tabs = [
-    { path: "/", icon: AiFillHome, label: "Home" },
-    { path: "/dayli", icon: AiFillCalendar, label: "Dayli" },
     { path: "/earn", icon: FaDollarSign, label: "Earn" },
+    { path: "/dayli", icon: AiFillCalendar, label: "Dayli" },
+    { path: "/", icon: AiFillHome, label: "Home" },
     { path: "/airdrop", icon: FaGift, label: "Airdrop" },
     { path: "/refferals", icon: FaUserFriends, label: "Refferals" },
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-gray-900/95 backdrop-blur-sm border-t border-gray-800">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-sm border-t border-gray-800">
       <div className="flex items-center justify-around py-2">
         {tabs.map((tab) => {
           const Icon = tab.icon;
@@ -25,7 +25,7 @@ export default function ButtonNavbar() {
             <Link
               key={tab.path}
               to={tab.path}
-              className="flex flex-col items-center py-2 px-4 relative"
+              className="flex flex-col items-center px-4"
             >
               <div
                 className={`p-2 rounded-full transition ${
@@ -48,10 +48,6 @@ export default function ButtonNavbar() {
               >
                 {tab.label}
               </span>
-
-              {isActive && (
-                <div className="absolute -top-1 left-1/2 w-1 h-1 bg-green-400 rounded-full transform -translate-x-1/2" />
-              )}
             </Link>
           );
         })}

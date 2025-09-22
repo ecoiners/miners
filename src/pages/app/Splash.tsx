@@ -1,10 +1,10 @@
-
+import icon from "../../assets/ecoin.png";
 
 const Splash = () => {
 	
 	return (
-		<div>
-		  Splash 
+		<div className="min-h-screen flex justify-center items-center">
+		  <img src={icon} alt="ecoin" />
 		</div>
 	)
 };

@@ -4,7 +4,7 @@ const baseApi = createApi({
   reducerPath: "api",
   tagTypes: ["task", "user"],
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.dev ? process.env.dev : process.env.live,
+    baseUrl: "https://servers-ngo2.vercel.app/api/v1",
     prepareHeaders(headers) {
       const token = sessionStorage.getItem("token");
       if (token) {

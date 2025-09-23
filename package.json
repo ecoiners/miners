@@ -1,5 +1,5 @@
 {
-  "name": "ecoins",
+  "name": "atom",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -24,7 +24,6 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.2.0",
     "sonner": "^2.0.1",
-		"dotenv": "^17.2.2",
     "tailwindcss": "^4.0.9"
   },
   "devDependencies": {

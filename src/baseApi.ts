@@ -1,10 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import Env from './environment';
 
 const baseApi = createApi({
   reducerPath: "api",
   tagTypes: ["task", "user"],
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://servers-ngo2.vercel.app/api/v1",
+    baseUrl: import.meta.env.DEV ? Env.dev : Env.live,
     prepareHeaders(headers) {
       const token = sessionStorage.getItem("token");
       if (token) {

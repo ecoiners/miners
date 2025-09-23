@@ -1,0 +1,6 @@
+const Env = {
+    dev: "https://servers-ngo2.vercel.app/api/v1",
+    live: "https://servers-ngo2.vercel.app/api/v1"
+};
+
+export default Env;

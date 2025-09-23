@@ -1,8 +1,51 @@
 @import "tailwindcss";
+@import "tailwindcss";
 @plugin "daisyui" {
   themes: all;
 }
 
 @theme {
-	--font-roboto: "Roboto", sans-serif;
+  --font-monda: "Monda", sans-serif;
+  --font-montez: "Montez", cursive;
+  --font-montserrat: "Montserrat", sans-serif;
+  --font-subrayada: "Montserrat Subrayada", sans-serif;
+  --font-open-sans: "Open Sans", sans-serif;
+  --font-roboto: "Roboto", sans-serif;
+  --font-tektur: "Tektur", cursive;
+}
+
+
+.anim_bg {
+	background: linear-gradient(-45deg, #63210d, #6b0e32, #07485f, #0a725a);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.click {
+	animation: top 1s;
+}
+
+@keyframes top {
+	0% {
+		top: 10;
+	}
+	50% {
+		top: 5;
+	}
+	100% {
+		top: 0;
+		display: none;
+	}
 }

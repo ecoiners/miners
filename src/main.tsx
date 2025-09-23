@@ -3,6 +3,9 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import { RouterProvider } from "react-router-dom";
 import route from "./routes";
+import WebApp from "@twa-dev/sdk";
+
+WebApp.setHeaderColor("#000000");
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

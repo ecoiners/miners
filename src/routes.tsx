@@ -6,6 +6,7 @@ import Spin from "./pages/app/Spin";
 import Task from "./pages/app/Task";
 import Invite from "./pages/app/Invite";
 import Wallet from "./pages/app/Wallet";
+import ProtectUser from "./utils/ProtectUser";
 
 const route = createBrowserRouter([
 	{
@@ -14,7 +15,7 @@ const route = createBrowserRouter([
 	},
 	{
 		path: "/app",
-		element: <AppLayout />,
+		element: <ProtectUser><AppLayout /></ProtectUser>,
 		children: [
 			{
 				path: "spin",

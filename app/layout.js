@@ -1,8 +1,9 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import {ThemeProvider} from "@/components/theme-provider";
-import { ConvexClientProvider } from "./convex-client-provider";
+import ConvexClientProvider from "./convex-client-provider";
 import { ClerkProvider } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -26,7 +27,7 @@ export default function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
 				>
-				  <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
+				  <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY} appearance={{baseTheme: dark}}>
 						<ConvexClientProvider>
 						  <main className="bg-slate-900 text-white overflow-x-hidden min-h-screen">
                 {children}

@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
           disableTransitionOnChange
 				>
 				  <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY>
-						<ConvexClientProvider>
+						<ConvexClientProvider}>
 						  <main className="bg-slate-900 text-white overflow-x-hidden min-h-screen">
                 {children}
 							</main>

@@ -5,7 +5,7 @@ import {
 	SignUpButton,
 	UserButton
 } from "@clerk/nextjs";
-import { Button } from " @/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
 	Unauthenticated,
 	Authenticated

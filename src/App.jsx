@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./screen/home";
 import Earn from "./screen/earn";
 import Dayli from "./screen/dayli";
@@ -18,7 +18,7 @@ function App() {
 				<Route path="/invite" element={<Refferals />} />
 				<Route path="/wallet" element={<Wallet />} />
 				
-				<Route path="*" element={<Navigate to="/" replace />} />
+				
 			</Routes>
     </Router>
   )

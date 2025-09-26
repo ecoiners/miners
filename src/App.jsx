@@ -10,16 +10,19 @@ function App() {
   
   return (
     <Router>
-		  <ButtomNav />
-		  <Routes>
-			  <Route path="/" element={<Home />} />
-				<Route path="/earn" element={<Earn />} />
-				<Route path="/dayli" element={<Dayli />} />
-				<Route path="/invite" element={<Refferals />} />
-				<Route path="/wallet" element={<Wallet />} />
-				
-				<Route path="*" element={<Navigate to="/" replace />} />
-			</Routes>
+		  <div className="min-h-screen" data-theme="black">
+				<Routes>
+					<Route path="/" element={<Home />} />
+				  <Route path="/earn" element={<Earn />} />
+				  <Route path="/dayli" element={<Dayli />} />
+				  <Route path="/invite" element={<Refferals />} />
+				  <Route path="/wallet" element={<Wallet />} />
+				  
+				  
+			  </Routes>
+			
+			  <BottomNav />
+			</div>
     </Router>
   )
 }

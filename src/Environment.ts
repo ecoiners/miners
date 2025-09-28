@@ -4,7 +4,7 @@ const Environment = {
     TON_TRANSACTION_REWARD: "35000",
     SYMBOL: "DOGS",
     PROJECT_NAME: "DOGS",
-    APP_LINK: "https://t.me/Hyperbull_bot/app"
+    APP_LINK: "https://t.me/ecoin_app_bot/app"
 };
 
 export default Environment;

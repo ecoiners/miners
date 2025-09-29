@@ -1,31 +1,50 @@
-# Full Stack AI Content Platform with Next JS, Tailwind, React Quill, ImageKit, Shadcn UI Tutorial 🔥🔥
-## https://www.youtube.com/watch?v=pyEmZ6WqE5c
-<img width="1280" height="720" alt="creatr" src="https://github.com/user-attachments/assets/721c2fa0-d628-4dbf-af6e-642419774bee" />
+# Welcome to your Expo app 👋
 
-### Make sure to create a `.env` file with following variables -
+This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
+## Get started
+
+1. Install dependencies
+
+   ```bash
+   npm install
+   ```
+
+2. Start the app
+
+   ```bash
+   npx expo start
+   ```
+
+In the output, you'll find options to open the app in a
+
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+
+You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+
+## Get a fresh project
+
+When you're ready, run:
+
+```bash
+npm run reset-project
 ```
-# Deployment used by `npx convex dev`
-CONVEX_DEPLOYMENT=
 
-NEXT_PUBLIC_CONVEX_URL=
+This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
-CLERK_SECRET_KEY=
+## Learn more
 
-NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+To learn more about developing your project with Expo, look at the following resources:
 
-CLERK_JWT_ISSUER_DOMAIN=
+- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
+- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
 
-# Imagekit
-NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY=
-NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT=
-IMAGEKIT_PRIVATE_KEY=
+## Join the community
 
-# Unsplash
-NEXT_PUBLIC_UNSPLASH_ACCESS_KEY=
+Join our community of developers creating universal apps.
 
-#Gemini
-GEMINI_API_KEY=
-```
+- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
+- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.

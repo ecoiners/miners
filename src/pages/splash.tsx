@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import splashimage from "../assets/images/splash.png";
 
 export default function Splash() {
-  const [loginUser, { data, isLoading, error }] = useLoginUserMutation();
+  const [loginUser, { data, error }] = useLoginUserMutation();
   const navigate = useNavigate();
   const [progress, setProgress] = useState(0);
 

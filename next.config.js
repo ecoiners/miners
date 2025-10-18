@@ -1,4 +1,38 @@
+
 /** @type {import('next').NextConfig} */
+const nextConfig = {
+  // HAPUS SEMUA experimental features
+  // experimental: {
+  //   appDir: false,
+  //   esmExternals: "loose",
+  // },
+  
+  // SIMPLIFIKASI transpilePackages - HAPUS yang bermasalah
+  transpilePackages: [
+    "@rainbow-me/rainbowkit",
+    "wagmi"
+    // HAPUS: @vanilla-extract/sprinkles, @reown/appkit, @walletconnect/*
+  ],
+  
+  // SIMPLIFIKASI webpack config
+  webpack: (config) => {
+    config.resolve.fallback = {
+      fs: false,
+      net: false,
+      tls: false,
+    };
+    return config;
+  },
+  
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
+  },
+};
+
+module.exports = nextConfig;
+
+/** @type {import('next').NextConfig} 
 const nextConfig = {
   experimental: {
     appDir: false, // Keep this false for pages directory
@@ -59,3 +93,4 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+*/

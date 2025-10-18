@@ -1,16 +1,8 @@
+
+
 import Head from "next/head";
 import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export default function Home() {
   return (
@@ -22,9 +14,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-			  <h1 className="text-gray-600 flex items-center justify-center">
-					Hallo web3 project
-			  </h1>
+        <h1 className="text-red-600 flex items-center justify-center">
+          Hallo web3 project
+        </h1>
       </div>
     </>
   );

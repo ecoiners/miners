@@ -76,7 +76,7 @@ contract ECROPICO {
   
   // USER FUNCTIONS
   function buyToken() external payable {
-		if (msg.value == 0) NoEthSent();
+		if (msg.value == 0) revert NoEthSent();
 		
 		address token = saleToken;
 		
@@ -85,7 +85,7 @@ contract ECROPICO {
 		// CALCULATE TOKEN AMOUNT ACCORDING TO TOKEN DECIMALS 
 		IERC20 tokenContract = IERC20(token);
 		uint8 decimals = tokenContract.decimals();
-		uint256 tokenAmout = (msg.value * (10**decimals)) / ethPriceForToken;
+		uint256 tokenAmount = (msg.value * (10**decimals)) / ethPriceForToken;
 		
 		// PROSES TOKEN PURCHASE
 		unchecked {

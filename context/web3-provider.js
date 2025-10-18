@@ -132,7 +132,7 @@ export const Web3Provider = ({ children }) => {
 					);
 					
 					const [
-						userTokenBalance
+						userTokenBalance,
 						userEthBalance,
 						contractEthBalance,
 						totalSupply

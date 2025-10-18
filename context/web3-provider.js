@@ -125,11 +125,11 @@ export const Web3Provider = ({ children }) => {
 				});
 				
 				if (address && info.tokenAddress) {
-					const tokenContract = new ethers.Contract({
+					const tokenContract = new ethers.Contract(
 						info.tokenAddress,
 						erc20ABI,
 						currentProvider
-					});
+					);
 					
 					const [
 						userTokenBalance

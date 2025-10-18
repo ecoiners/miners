@@ -1,8 +1,8 @@
 // internal import
-import "../styles/globals.css";
-import { config } from "../provider/wagmi-config";
-import { Web3Provider } from "../context/web3-provider";
-import { ToastProvider } from "../context/toast-context";
+import "@/styles/globals.css";
+import { config } from "@/provider/wagmi-config";
+import { Web3Provider } from "@/context/web3-provider";
+import { ToastProvider } from "@/context/toast-context";
 
 // external import 
 import {

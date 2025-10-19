@@ -70,9 +70,9 @@ export default function Home() {
 		
 		if (dark) {
 			document.documentElement.classList.add("dark");
-		} else (
+		} else {
 			document.documentElement.classList.remove("dark");
-		)
+		}
 	};
 	
   return (

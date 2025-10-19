@@ -40,7 +40,7 @@ const MobileAccordionItem = ({title, items, isDarkMode, toggleMenu}) => {
 		  <button type="button" aria-expanded={isOpen} onClick={() => setIsOpen(!isOpen)} className={`flex items-center justify-between w-full py-4 ${isDarkMode ? "text-gray-300":"text-gray-700"}`}>
 			  <span className="flex items-center space-x-2">
 				  <FiChevronDown className={`transition-transform duration-300 ${isOpen ? "rotate-180":""}`}/>
-					<span>{title}<span>
+					<span>{title}</span>
 				</span>
 			</button>
 			
@@ -549,22 +549,20 @@ export default function Header({ isDarkMode, toggleDarkMode}) {
 				
 			</header>
 			
-			<style jsx>
-			  {`
-				  @keyframes marquee {
-						0% {
-							transform: translateX(100%);
-						}
-						100%: {
-							transform: translateX(-100%);
-						}
-						.animate-marquee {
-							animation: marquee 20s linear infinite;
-							display: inline-block;
-						}
-					}
-				`}
-			</style>
+			<style jsx>{`
+        @keyframes marquee {
+          0% {
+            transform: translateX(100%);
+          }
+          100% {
+            transform: translateX(-100%);
+          }
+        }
+        .animate-marquee {
+          animation: marquee 20s linear infinite;
+          display: inline-block;
+        }
+      `}</style>
 		</>
 	);
 };

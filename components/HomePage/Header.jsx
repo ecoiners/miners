@@ -519,7 +519,7 @@ export default function Header({ isDarkMode, toggleDarkMode}) {
 								  onClick={() => setIsOpen(false)}
 								>
 								  <FiCompass size={18}/>
-								  <span>Explorer<span>
+								  <span>Explorer</span>
 								</Link>
 								
 								<Link 
@@ -529,7 +529,7 @@ export default function Header({ isDarkMode, toggleDarkMode}) {
 								  onClick={() => setIsOpen(false)}
 								>
 								  <FiCompass size={18}/>
-								  <span>Dashboard<span>
+								  <span>Dashboard</span>
 								</Link>
 								
 								<div className="mt-8">

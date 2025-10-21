@@ -7,11 +7,7 @@ import {
   rainbowWallet,
   coinbaseWallet,
   walletConnectWallet,
-  injectedWallet,
-  argentWallet,
-  ledgerWallet,
-  omniWallet,
-  safeWallet
+  injectedWallet
 } from '@rainbow-me/rainbowkit/wallets';
 
 const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID;
@@ -23,29 +19,15 @@ export const config = getDefaultConfig({
   ssr: true,
   wallets: [
     {
-      groupName: 'Popular',
+      groupName: 'Recommended',
       wallets: [
-        injectedWallet, // Auto-detect browser wallets
+        injectedWallet, // Support semua browser wallets (Brave, MetaMask, dll)
         braveWallet,
         metaMaskWallet,
         walletConnectWallet,
-      ],
-    },
-    {
-      groupName: 'Mobile',
-      wallets: [
         trustWallet,
         coinbaseWallet,
         rainbowWallet,
-        argentWallet,
-      ],
-    },
-    {
-      groupName: 'More',
-      wallets: [
-        ledgerWallet,
-        omniWallet,
-        safeWallet,
       ],
     },
   ],

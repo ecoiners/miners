@@ -727,7 +727,7 @@ const HeroSection = ({isDarkMode, setIsReffelPopupOpeb}) => {
 										{/* COMMAND: Button add token to MetaMask */}
 										<button 
 										  onClick={() => addTokenToMetamask()}
-											className="w-full hidden lg:flex bg-gradient-to-r from-fuchsia-500 to-purple-600 hover:from-fuchsia-600 hover:to-purple-700 rounded-lg py-4 mb-4 flex items-center justify-center transition-all duration-300 font-medium shadow-lg" {/* FIX: typo "items-centet" jadi "items-center" */}
+											className="w-full hidden lg:flex bg-gradient-to-r from-fuchsia-500 to-purple-600 hover:from-fuchsia-600 hover:to-purple-700 rounded-lg py-4 mb-4 flex items-center justify-center transition-all duration-300 font-medium shadow-lg" 
 										>
 										  <img src="/logo.png" alt={tokenSymbol} className={"h-5 w-5"} />{" "}
 											&nbsp;

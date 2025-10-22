@@ -263,7 +263,7 @@ const HeroSection = ({isDarkMode, setIsReffelPopupOpeb}) => {
 	const cardBorder = isDarkMode ? "border-gray-800/30" : "border-gray-100";
 	const inputBg = isDarkMode ? "bg-gray-900/60 border-gray-800/50" : "bg-gray-100 border-gray-200/70";
 	const primaryGradient = "from-fuchsia-500 to-purple-600";
-	const primaryGradientHover: "hover:from-fuchsia-600 hover:to-purple-700";
+	const primaryGradientHover= "hover:from-fuchsia-600 hover:to-purple-700";
 	const accentColor = "text-[#7765F3]";
 	
 	const getTokenButtonStyle = (token) => {

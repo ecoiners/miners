@@ -9,8 +9,9 @@ import {
   prepareContractCall,
   toEther,
   toUnits,
+	defineChain
 } from "thirdweb";
-import { holesky } from "thirdweb/chains";
+
 import { client,TokenSaleAddress } from "../client";
 
 const COMMANDER_ADDRESS = process.env.TokenSaleAddress;
@@ -24,7 +25,7 @@ export default function Home() {
   const contract = getContract({
     client,
     address: COMMANDER_ADDRESS,
-    chain: holesky, // ganti ke polygon / holesky / arbitrum, dll
+    chain: defineChain(17000), // ganti ke polygon / holesky / arbitrum, dll
   });
 
   // ==== READ ====

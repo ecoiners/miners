@@ -1,6 +1,6 @@
 "use client";
 
-import { Link } from "react-router-dom";
+import { Link } from "next/link";
 import ConnectWallet from "./ConnectWallet";
 
 export default function Header() {
@@ -12,7 +12,7 @@ export default function Header() {
           alt="logo"
           className="w-8 h-8 rounded-full"
         />
-        <Link to="/" className="text-lg font-semibold">
+        <Link href="/" className="text-lg font-semibold">
           ECROP 100
         </Link>
       </div>

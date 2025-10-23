@@ -34,47 +34,51 @@ export default function Home() {
 
   return (
     <div className="max-w-lg mx-auto mt-10 bg-zinc-900 p-6 rounded-2xl shadow-lg text-white">
-      <h2 className="text-2xl font-semibold mb-4 text-pink-500">Commander Token</h2>
-
-      <p>
-        <span className="font-semibold">Token Name:</span> {name || "..."}
-      </p>
-			
-			<p>
-			  <span className=" font-semibold">Token Symbol: </span> 
-				{symbol}
-			</p>
-      <p>
-        <span className="font-semibold">Total Supply:</span>{" "}
-        {totalSupply ? toEther(totalSupply) : "..."} E100
-      </p>
-			
-			<p><span className=" font-semibold text-green-500">Owner : </span> {ownerOfContract}
-
+      <div>
+			  <h2 className="text-2xl font-semibold mb-4 text-pink-500">Commander Token</h2>
+  
+        <p>
+          <span className="font-semibold">Token Name:</span> {name || "..."}
+        </p>
+			  
+			  <p>
+					<span className=" font-semibold">Token Symbol: </span> 
+				  {symbol}
+			  </p>
+        <p>
+          <span className="font-semibold">Total Supply:</span>{" "}
+          {totalSupply ? toEther(totalSupply) : "..."} E100
+        </p>
+			  
+			  <p><span className=" font-semibold text-green-500">Owner : </span> {ownerOfContract}</p >
+      </div>
       <hr className="my-4 border-zinc-700" />
 
-      <h3 className="text-xl mb-2">Transfer Token</h3>
-      <input
-        type="text"
-        placeholder="Recipient address"
-        className="w-full p-2 rounded bg-zinc-800 mb-2 text-white"
-        value={recipient}
-        onChange={(e) => setRecipient(e.target.value)}
-      />
-      <input
-        type="number"
-        placeholder="Amount"
-        className="w-full p-2 rounded bg-zinc-800 mb-2 text-white"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-      />
-      <button
-        disabled={isLoading}
-        onClick={handleTransfer}
-        className="w-full bg-pink-600 hover:bg-pink-700 py-2 rounded mt-2 disabled:opacity-50"
-      >
-        {isLoading ? "Processing..." : "Send Token"}
-      </button>
+			<div>
+        <h3 className="text-xl mb-2">Transfer Token</h3>
+      
+			  <input
+          type="text"
+          placeholder="Recipient address"
+          className="w-full p-2 rounded bg-zinc-800 mb-2 text-white"
+          value={recipient}
+          onChange={(e) => setRecipient(e.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Amount"
+          className="w-full p-2 rounded bg-zinc-800 mb-2 text-white"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+        />
+        <button
+          disabled={isLoading}
+          onClick={handleTransfer}
+          className="w-full bg-pink-600 hover:bg-pink-700 py-2 rounded mt-2 disabled:opacity-50"
+        >
+          {isLoading ? "Processing..." : "Send Token"}
+        </button>
+			</div>
     </div>
   );
 } 

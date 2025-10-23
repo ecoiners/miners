@@ -4,6 +4,7 @@ import App  from "./App";
 import { ThirdwebProvider } from "thirdweb/react";
 //import { holesky } from "thirdweb/chains";
 import "./index.css";
+import { BrowserRouter as Router } from "react-router-dom";
 
 //import { client } from "./client";
 

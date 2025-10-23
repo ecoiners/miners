@@ -12,9 +12,9 @@ import {
 	defineChain
 } from "thirdweb";
 
-import { client,TokenSaleAddress } from "../client";
+import { client,TokenAddress } from "../client";
 
-const COMMANDER_ADDRESS = process.env.TokenSaleAddress;
+const COMMANDER_ADDRESS = TokenAddress;
 
 export default function Home() {
   const account = useActiveAccount();

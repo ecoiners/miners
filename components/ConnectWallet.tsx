@@ -1,6 +1,8 @@
+"use client";
+
 import { ConnectButton, darkTheme } from "thirdweb/react";
 import { inAppWallet, createWallet } from "thirdweb/wallets";
-import { client } from "../client";
+import { client } from "@/app/client";
 
 const wallets = [
   inAppWallet({

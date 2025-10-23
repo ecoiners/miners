@@ -12,7 +12,7 @@ import {
 	defineChain
 } from "thirdweb";
 
-import { client,TokenAddress } from "../client";
+import { client,TokenAddress } from "./client";
 
 const COMMANDER_ADDRESS = TokenAddress;
 

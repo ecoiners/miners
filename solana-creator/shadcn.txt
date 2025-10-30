@@ -1,0 +1,56 @@
+npx shadcn@latest add sheet dropdown-menu accordion sidebar alert input button badge textarea form collapsible card label alert-dialog carousel command avatar field progress native-select hover-card popover
+
+
+npx shadcn@latest add chart switch table toggle navigation-menu scroll-area checkbox drawer dialog resizable skeleton spinner slider tabs aspect-ratio calendar menubar select dropdown-menu
+
+@metaplex-foundation/mpl-token-metadata@2.3.3 @formspree/react @heroicons/react
+    
+npm install @tanstack/react-table
+npm i next-themes axios
+
+"use client"
+
+import * as React from "react"
+import { ThemeProvider as NextThemesProvider } from "next-themes"
+
+export function ThemeProvider({
+  children,
+  ...props
+}: React.ComponentProps<typeof NextThemesProvider>) {
+  return <NextThemesProvider {...props}>{children}</NextThemesProvider>
+}
+
+import { ThemeProvider } from "@/components/theme-provider"
+
+export default function RootLayout({ children }: RootLayoutProps) {
+  return (
+    <>
+      <html lang="en" suppressHydrationWarning>
+        <head />
+        <body>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </body>
+      </html>
+    </>
+  )
+
+// penggunaan Props non FC
+"use client";
+import React, { Dispatch, SetStateAction } from "react";
+
+interface CreateViewProps {
+  setOpenCreateModal: Dispatch<SetStateAction<boolean>>;
+}
+
+export default function CreateView({ setOpenCreateModal }: CreateViewProps) {
+  return (
+    <button onClick={() => setOpenCreateModal(true)}>Open</button>
+  );
+}

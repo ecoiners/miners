@@ -31,7 +31,7 @@ import {
 } from "lucide-react";
 
 const Footer: FC = () => {
-  const [state, handleSubmit] = useForm(process.env.NEXT_PUBLIC_FORMSPREE_KEY);
+  const [state, handleSubmit] = useForm(process.env.NEXT_PUBLIC_FORMSPREE_KEY || "");
 
   if (state.succeeded) {
     return (

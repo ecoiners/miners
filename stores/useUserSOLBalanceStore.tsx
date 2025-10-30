@@ -1,4 +1,4 @@
-import create, { State } from "zustand";
+import { create, State } from "zustand";
 import {
 	Connection,
 	PublicKey,

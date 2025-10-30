@@ -14,7 +14,7 @@ import { X, CheckCircle2, AlertCircle, Info, TriangleAlert } from "lucide-react"
 
 const NotificationList = () => {
   const { notifications, set: setNotificationStore } = useNotificationStore(
-    (s) => s
+    (s: any) => s
   );
 
   const reversedNotifications = [...notifications].reverse();

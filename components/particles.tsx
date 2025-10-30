@@ -40,8 +40,12 @@ export default function ParticlesCanvas() {
       pulseOffset: number;
       rotation: number;
       rotationSpeed: number;
+      canvasWidth: number;
+      canvasHeight: number;
 
       constructor(canvasWidth: number, canvasHeight: number) {
+        this.canvasWidth = canvasWidth;
+        this.canvasHeight = canvasHeight;
         this.x = Math.random() * canvasWidth;
         this.y = Math.random() * canvasHeight;
         this.originalSize = Math.random() * 4 + 2;
@@ -76,10 +80,10 @@ export default function ParticlesCanvas() {
         this.rotation += this.rotationSpeed;
 
         // Boundary check dengan wrap-around
-        if (this.x > canvas.width + 50) this.x = -50;
-        else if (this.x < -50) this.x = canvas.width + 50;
-        if (this.y > canvas.height + 50) this.y = -50;
-        else if (this.y < -50) this.y = canvas.height + 50;
+        if (this.x > this.canvasWidth + 50) this.x = -50;
+        else if (this.x < -50) this.x = this.canvasWidth + 50;
+        if (this.y > this.canvasHeight + 50) this.y = -50;
+        else if (this.y < -50) this.y = this.canvasHeight + 50;
       }
 
       draw() {
@@ -190,28 +194,38 @@ export default function ParticlesCanvas() {
     }
 
     // Create particles
-    const particles: Particle[] = [];
-    const connections: Connection[] = [];
-    const particleCount = Math.min(80, Math.floor(window.innerWidth / 15));
+    let particles: Particle[] = [];
+    let connections: Connection[] = [];
 
-    for (let i = 0; i < particleCount; i++) {
-      particles.push(new Particle(canvas.width, canvas.height));
-    }
+    const initParticles = () => {
+      particles = [];
+      connections = [];
+      
+      const particleCount = Math.min(80, Math.floor(canvas.width / 15));
 
-    // Create connections between nearby particles
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const distance = Math.sqrt(
-          Math.pow(particles[j].x - particles[i].x, 2) + 
-          Math.pow(particles[j].y - particles[i].y, 2)
-        );
-        if (distance < 150) {
-          connections.push(new Connection(particles[i], particles[j]));
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle(canvas.width, canvas.height));
+      }
+
+      // Create connections between nearby particles
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const distance = Math.sqrt(
+            Math.pow(particles[j].x - particles[i].x, 2) + 
+            Math.pow(particles[j].y - particles[i].y, 2)
+          );
+          if (distance < 150) {
+            connections.push(new Connection(particles[i], particles[j]));
+          }
         }
       }
-    }
+    };
+
+    initParticles();
 
     // Animation loop
+    let animationFrameId: number;
+
     const animate = () => {
       if (!ctx || !canvas) return;
       
@@ -234,7 +248,7 @@ export default function ParticlesCanvas() {
         particle.draw();
       });
 
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     };
 
     animate();
@@ -243,44 +257,18 @@ export default function ParticlesCanvas() {
     const handleResize = () => {
       if (!canvas) return;
       setCanvasSize();
-      
-      // Recreate particles on resize
-      particles.length = 0;
-      connections.length = 0;
-      
-      for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle(canvas.width, canvas.height));
-      }
-
-      // Recreate connections
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const distance = Math.sqrt(
-            Math.pow(particles[j].x - particles[i].x, 2) + 
-            Math.pow(particles[j].y - particles[i].y, 2)
-          );
-          if (distance < 150) {
-            connections.push(new Connection(particles[i], particles[j]));
-          }
-        }
-      }
+      initParticles();
     };
 
     window.addEventListener('resize', handleResize);
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
     };
   }, [isClient]);
-
-  if (!isClient) {
-    return (
-      <canvas
-        ref={canvasRef}
-        className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none"
-      />
-    );
-  }
 
   return (
     <canvas

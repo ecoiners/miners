@@ -19,14 +19,14 @@ export default function NetworkSwitcher() {
         onValueChange={(value) => setNetworkConfiguration(value)}
       >
         <SelectTrigger
-          className="w-[140px] text-sm font-medium text-white border border-green-500/30 
-          bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-500 hover:to-teal-500 
-          focus:ring-2 focus:ring-emerald-400 rounded-lg transition-all shadow-sm"
+          className="w-[60px] text-sm font-medium text-white  
+          bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 
+          rounded-lg transition-all shadow-sm"
         >
           <SelectValue placeholder="Select Network" />
         </SelectTrigger>
 
-        <SelectContent className="bg-slate-900 text-white border border-emerald-500/20">
+        <SelectContent className="bg-slate-900/60 text-white ">
           <SelectItem value="mainnet-beta">Mainnet</SelectItem>
           <SelectItem value="devnet">Devnet</SelectItem>
           <SelectItem value="testnet">Testnet</SelectItem>

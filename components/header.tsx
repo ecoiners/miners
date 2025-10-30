@@ -27,7 +27,7 @@ export default function Header() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 border-b border-green-400/10 bg-gradient-to-b from-slate-900/60 to-slate-900/20 backdrop-blur-lg">
+    <header className="fixed top-0 left-0 w-full z-50 border-b border-green-500/20 backdrop-blur-md bg-slate-900/60">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 md:px-8">
         {/* === Logo === */}
         <Link href="/" className="flex items-center gap-2">
@@ -38,7 +38,7 @@ export default function Header() {
             height={36}
             className="rounded-md"
           />
-          <span className="font-semibold text-lg bg-gradient-to-r from-green-400 to-teal-400 bg-clip-text text-transparent">
+          <span className="font-semibold text-lg bg-gradient-to-r from-green-500 to-teal-500 bg-clip-text text-transparent">
             ECROP 100
           </span>
         </Link>
@@ -66,7 +66,7 @@ export default function Header() {
           <NetworkSwitcher />
 
           {/* === Mobile Menu === */}
-          <Sheet>
+          <Sheet classNameName="p-10">
             <SheetTrigger asChild>
               <Button
                 className="md:hidden hover:bg-green-500 text-white"
@@ -77,17 +77,17 @@ export default function Header() {
 
             <SheetContent
               side="top"
-              className="bg-slate-900/95 backdrop-blur-xl border-l border-green-500/10"
+              className="bg-slate-900/60 backdrop-blur-xl border-l border-green-500/10"
     >
               <nav className="flex items-center flex-col mt-10 space-y-5">
                 {menuItem.map((item, i) => (
-                  <Link
+                  <a
                     key={i}
                     href={item.link}
-                    className="text-lg font-medium text-gray-200 hover:text-green-400 transition"
+                    className="text-lg font-medium text-white bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 transition"
                   >
                     {item.label}
-                  </Link>
+                  </a>
                 ))}
                 <div className="pt-4 flex flex-col gap-4">
 								  <NetworkSwitcher />

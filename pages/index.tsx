@@ -83,24 +83,6 @@ const Home: NextPage = (props) => {
           </ScrollArea>
         </DialogContent>
       </Dialog>
-
-      {/*
-      <Dialog open={openAirdrop} onOpenChange={setOpenAirdrop}>
-        <DialogContent className="max-w-2xl max-h-[90vh] bg-slate-900 border border-green-500/20 backdrop-blur-md">
-          <ScrollArea className="h-full max-h-[80vh]">
-            <AirdropView setOpenAirdrop={setOpenAirdrop} />
-          </ScrollArea>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={openSendTransaction} onOpenChange={setOpenSendTransaction}>
-        <DialogContent className="max-w-2xl max-h-[90vh] bg-slate-900 border border-green-500/20 backdrop-blur-md">
-          <ScrollArea className="h-full max-h-[80vh]">
-            <DonateView setOpenSendTransaction={setOpenSendTransaction} />
-          </ScrollArea>
-        </DialogContent>
-      </Dialog>
-      */}
     </>
   );
 };

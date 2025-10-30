@@ -47,10 +47,10 @@ import {
 
 interface CreateViewProps {
   setOpenCreateModal: Dispatch<SetStateAction<boolean>>;
-  openCreateModal: boolean;
+  
 }
 
-const CreateView: FC<CreateViewProps> = ({ setOpenCreateModal, openCreateModal }) => {
+const CreateView: FC<CreateViewProps> = ({ setOpenCreateModal }) => {
   const { connection } = useConnection();
   const { publicKey, sendTransaction } = useWallet();
   const { networkConfiguration } = useNetworkConfiguration();

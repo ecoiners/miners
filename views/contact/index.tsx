@@ -25,10 +25,10 @@ import {
 
 interface ContactProps {
   setOpenContact: Dispatch<SetStateAction<boolean>>;
-  openContact: boolean;
+  
 }
 
-const ContactView: FC<ContactProps> = ({ setOpenContact, openContact }) => {
+const ContactView: FC<ContactProps> = ({ setOpenContact }) => {
   const [state, handleSubmit] = useForm(process.env.NEXT_PUBLIC_FORMSPREE_KEY || "");
 
   if (state.succeeded) {

@@ -21,10 +21,10 @@ import { Loader2, ExternalLink, Copy, Search } from "lucide-react";
 
 interface TokenMetadataProps {
   setOpenTokenMetadata: Dispatch<SetStateAction<boolean>>;
-  openTokenMetadata: boolean;
+  
 }
 
-const TokenMetadata: FC<TokenMetadataProps> = ({ setOpenTokenMetadata, openTokenMetadata }) => {
+const TokenMetadata: FC<TokenMetadataProps> = ({ setOpenTokenMetadata }) => {
   const { connection } = useConnection();
   const [tokenAddress, setTokenAddress] = useState("");
   const [tokenMetadata, setTokenMetadata] = useState<any>(null);

@@ -1,11 +1,18 @@
 "use client";
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function ParticlesCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -13,10 +20,14 @@ export default function ParticlesCanvas() {
     if (!ctx) return;
 
     // Set canvas size
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const setCanvasSize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
 
-    // Particle class
+    setCanvasSize();
+
+    // Particle class dengan efek koin/token
     class Particle {
       x: number;
       y: number;
@@ -24,20 +35,32 @@ export default function ParticlesCanvas() {
       speedX: number;
       speedY: number;
       color: string;
+      originalSize: number;
+      pulseSpeed: number;
+      pulseOffset: number;
+      rotation: number;
+      rotationSpeed: number;
 
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 3 + 1;
-        this.speedX = Math.random() * 1 - 0.5;
-        this.speedY = Math.random() * 1 - 0.5;
+      constructor(canvasWidth: number, canvasHeight: number) {
+        this.x = Math.random() * canvasWidth;
+        this.y = Math.random() * canvasHeight;
+        this.originalSize = Math.random() * 4 + 2;
+        this.size = this.originalSize;
+        this.speedX = Math.random() * 1.5 - 0.75;
+        this.speedY = Math.random() * 1.5 - 0.75;
+        this.pulseSpeed = Math.random() * 0.05 + 0.02;
+        this.pulseOffset = Math.random() * Math.PI * 2;
+        this.rotation = Math.random() * Math.PI * 2;
+        this.rotationSpeed = Math.random() * 0.03 - 0.015;
         
-        // Solana colors
+        // Solana colors dengan variasi
         const colors = [
-          'rgba(0, 255, 171, 0.6)',  // Green
-          'rgba(0, 212, 255, 0.6)',  // Teal
-          'rgba(20, 184, 166, 0.6)', // Emerald
-          'rgba(14, 165, 233, 0.6)'  // Blue
+          'rgba(0, 255, 163, 0.8)',  // Bright Green
+          'rgba(0, 229, 255, 0.8)',  // Cyan
+          'rgba(20, 184, 166, 0.8)', // Emerald
+          'rgba(14, 165, 233, 0.8)', // Sky Blue
+          'rgba(139, 92, 246, 0.8)', // Purple
+          'rgba(236, 72, 153, 0.8)'  // Pink
         ];
         this.color = colors[Math.floor(Math.random() * colors.length)];
       }
@@ -45,32 +68,147 @@ export default function ParticlesCanvas() {
       update() {
         this.x += this.speedX;
         this.y += this.speedY;
+        
+        // Pulsating effect
+        this.size = this.originalSize + Math.sin(Date.now() * this.pulseSpeed + this.pulseOffset) * 1;
+        
+        // Rotation
+        this.rotation += this.rotationSpeed;
 
-        if (this.x > canvas.width) this.x = 0;
-        else if (this.x < 0) this.x = canvas.width;
-        if (this.y > canvas.height) this.y = 0;
-        else if (this.y < 0) this.y = canvas.height;
+        // Boundary check dengan wrap-around
+        if (this.x > canvas.width + 50) this.x = -50;
+        else if (this.x < -50) this.x = canvas.width + 50;
+        if (this.y > canvas.height + 50) this.y = -50;
+        else if (this.y < -50) this.y = canvas.height + 50;
       }
 
       draw() {
         if (!ctx) return;
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Glow effect untuk coin/token
-        ctx.shadowBlur = 10;
+
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+
+        // Outer glow
+        ctx.shadowBlur = 15;
         ctx.shadowColor = this.color;
+
+        // Draw coin/token shape (hexagon atau circle dengan detail)
+        if (Math.random() > 0.3) {
+          // Coin style (circle dengan inner circle)
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Inner circle untuk efek koin
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+          ctx.beginPath();
+          ctx.arc(0, 0, this.size * 0.5, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          // Token style (hexagon)
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          const sides = 6;
+          for (let i = 0; i < sides; i++) {
+            const angle = (i * 2 * Math.PI) / sides;
+            const x = Math.cos(angle) * this.size;
+            const y = Math.sin(angle) * this.size;
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          ctx.closePath();
+          ctx.fill();
+
+          // Inner hexagon
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+          ctx.beginPath();
+          for (let i = 0; i < 6; i++) {
+            const angle = (i * 2 * Math.PI) / 6;
+            const x = Math.cos(angle) * (this.size * 0.6);
+            const y = Math.sin(angle) * (this.size * 0.6);
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          ctx.closePath();
+          ctx.fill();
+        }
+
+        ctx.restore();
+      }
+    }
+
+    // Connection lines class
+    class Connection {
+      particle1: Particle;
+      particle2: Particle;
+      length: number;
+      opacity: number;
+
+      constructor(p1: Particle, p2: Particle) {
+        this.particle1 = p1;
+        this.particle2 = p2;
+        this.length = Math.sqrt(
+          Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2)
+        );
+        this.opacity = 0;
+      }
+
+      update() {
+        const currentLength = Math.sqrt(
+          Math.pow(this.particle2.x - this.particle1.x, 2) + 
+          Math.pow(this.particle2.y - this.particle1.y, 2)
+        );
+        
+        // Update opacity based on distance
+        if (currentLength < 150) {
+          this.opacity = 1 - (currentLength / 150);
+        } else {
+          this.opacity = 0;
+        }
+      }
+
+      draw() {
+        if (!ctx || this.opacity === 0) return;
+
+        const gradient = ctx.createLinearGradient(
+          this.particle1.x, this.particle1.y,
+          this.particle2.x, this.particle2.y
+        );
+        
+        gradient.addColorStop(0, `${this.particle1.color.replace('0.8', this.opacity.toString())}`);
+        gradient.addColorStop(1, `${this.particle2.color.replace('0.8', this.opacity.toString())}`);
+
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(this.particle1.x, this.particle1.y);
+        ctx.lineTo(this.particle2.x, this.particle2.y);
+        ctx.stroke();
       }
     }
 
     // Create particles
     const particles: Particle[] = [];
-    const particleCount = Math.min(100, Math.floor(window.innerWidth / 10));
+    const connections: Connection[] = [];
+    const particleCount = Math.min(80, Math.floor(window.innerWidth / 15));
 
     for (let i = 0; i < particleCount; i++) {
-      particles.push(new Particle());
+      particles.push(new Particle(canvas.width, canvas.height));
+    }
+
+    // Create connections between nearby particles
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const distance = Math.sqrt(
+          Math.pow(particles[j].x - particles[i].x, 2) + 
+          Math.pow(particles[j].y - particles[i].y, 2)
+        );
+        if (distance < 150) {
+          connections.push(new Connection(particles[i], particles[j]));
+        }
+      }
     }
 
     // Animation loop
@@ -78,12 +216,19 @@ export default function ParticlesCanvas() {
       if (!ctx || !canvas) return;
       
       // Clear with semi-transparent for trail effect
-      ctx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.1)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
       // Reset shadow
       ctx.shadowBlur = 0;
 
+      // Update and draw connections first
+      connections.forEach(connection => {
+        connection.update();
+        connection.draw();
+      });
+
+      // Update and draw particles
       particles.forEach(particle => {
         particle.update();
         particle.draw();
@@ -97,8 +242,28 @@ export default function ParticlesCanvas() {
     // Handle resize
     const handleResize = () => {
       if (!canvas) return;
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      setCanvasSize();
+      
+      // Recreate particles on resize
+      particles.length = 0;
+      connections.length = 0;
+      
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle(canvas.width, canvas.height));
+      }
+
+      // Recreate connections
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const distance = Math.sqrt(
+            Math.pow(particles[j].x - particles[i].x, 2) + 
+            Math.pow(particles[j].y - particles[i].y, 2)
+          );
+          if (distance < 150) {
+            connections.push(new Connection(particles[i], particles[j]));
+          }
+        }
+      }
     };
 
     window.addEventListener('resize', handleResize);
@@ -106,7 +271,16 @@ export default function ParticlesCanvas() {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [isClient]);
+
+  if (!isClient) {
+    return (
+      <canvas
+        ref={canvasRef}
+        className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none"
+      />
+    );
+  }
 
   return (
     <canvas
@@ -114,74 +288,4 @@ export default function ParticlesCanvas() {
       className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none"
     />
   );
-};
-
-
-/* v 1
-"use client";
-
-import { useEffect, useRef } from "react";
-
-export default function ParticlesCanvas() {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
-
-    const particles = Array.from({ length: 40 }).map(() => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      radius: Math.random() * 3 + 1,
-      speedY: Math.random() * 0.6 + 0.2,
-      color: ["#34d399", "#2dd4bf", "#10b981"][
-        Math.floor(Math.random() * 3)
-      ],
-    }));
-
-    function draw() {
-      if (!ctx) return;
-      ctx.clearRect(0, 0, width, height);
-
-      particles.forEach((p) => {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.globalAlpha = 0.5;
-        ctx.fill();
-
-        p.y -= p.speedY;
-        if (p.y < -5) {
-          p.y = height + 5;
-          p.x = Math.random() * width;
-        }
-      });
-
-      requestAnimationFrame(draw);
-    }
-
-    draw();
-
-    const handleResize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 -z-10 w-full h-full pointer-events-none"
-    />
-  );
 }
-*/

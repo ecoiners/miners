@@ -1,40 +1,111 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Solana Token Creator Dapp
 
-## Getting Started
+Build And Deploy Solana Token Creator Dapp Using TypeScripts, NextJs, Tailwind on MainNet & Devnet
 
-First, run the development server:
+Build your first Solana Token Creator Dapp Using Nestjs, Tyscript as frontend and Solana SDK with 100% decentralization, In the source code file you will get the complete source code of Solana Token Creator Dapp, which you can see in the tutorial
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Project Overview
+
+![alt text](https://www.daulathussain.com/wp-content/uploads/2024/01/Creat-Solana-Token-Creator-Dapp-Full-stack-solana-project.jpg)
+
+## Instruction
+
+Kindly follow the following Instructions to run the project in your system and install the necessary requirements
+
+- [Final Source Code](https://www.theblockchaincoders.com/sourceCode/create-solana-token-creator-dapp)
+
+#### Setup Video
+
+- [Final Code Setup video](https://youtu.be/TuDSjk2GSms?si=IyAakYYgMANQcHJJ)
+
+```https://code.visualstudio.com/download
+  WATCH: Setup & Demo Of Project
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### Install Vs Code Editor
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```https://code.visualstudio.com/download
+  GET: VsCode Editor
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+#### NodeJs & NPM Version
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```
+  URL: https://nodejs.org/en/download
+  NodeJs: v18.12.1 / LATEST
+  NPM: 8.19.2
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+#### Clone Starter File
 
-## Learn More
+```
+  GET: Project Starter File Download
+  URL: https://github.com/daulathussain/Solana-Token-Starter-File
+```
 
-To learn more about Next.js, take a look at the following resources:
+All you need to follow the complete project and follow the instructions which are explained in the tutorial by Daulat
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Final Code Instruction
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+If you download the final source code then you can follow the following instructions to run the Dapp successfully
 
-## Deploy on Vercel
+#### Setup Video
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+  WATCH: Setup & Demo Of Project
+  URL: https://code.visualstudio.com/download
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+#### Final Source Code
+
+```
+  Download the Final Source Code
+  URL: https://www.theblockchaincoders.com/SourceCode
+```
+
+#### Install Vs Code Editor
+
+```
+  GET: VsCode Editor
+  URL: https://code.visualstudio.com/download
+```
+
+#### PINATA IPFS
+
+```
+  OPEN: PINATA.CLOUD
+  URL:https://pinata.cloud/
+```
+
+#### ALCHEMY
+
+```
+  OPEN: ALCHEMY.COM
+  URL: https://www.alchemy.com/
+```
+
+#### PHANTOM
+
+```
+  OPEN: PHANTOM.COM
+  URL: https://phantom.com/
+```
+
+#### SOLANA PLAYGROUND ID
+
+```
+  OPEN: SOLANA PLAYGROUND ID
+  URL:https://beta.solpg.io/
+```
+
+## Important Links
+
+- [Get Pro Blockchain Developer Course](https://www.theblockchaincoders.com/pro-nft-marketplace)
+- [Support Creator](https://bit.ly/Support-Creator)
+- [All Projects Source Code](https://www.theblockchaincoders.com/SourceCode)
+
+## Authors
+
+- [@theblockchaincoders.com](https://www.theblockchaincoders.com/)
+- [@consultancy](https://www.theblockchaincoders.com/consultancy)
+- [@youtube](https://www.youtube.com/@daulathussain)

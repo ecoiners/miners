@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 
-const ParticlesCanvas() {
+export default function ParticlesCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {

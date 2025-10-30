@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { NetworkConfigurationProvider } from "@/context/network-configuration-provider";
 
 import ParticlesCanvas from "@/components/particles";
 import Header from "@/components/header";
@@ -30,9 +31,11 @@ export default function RootLayout({
       <body
         className={`${spaceGrotesk.variable} ${jetBrainsMono.variable} text-white font-sans antialiased bg-gradient-to-br from-green-700 via-teal-700 to-emerald-800 min-h-screen relative overflow-hidden`}
       >
-        <ParticlesCanvas />
-				<Header />
-        {children}
+			  <NetworkConfigurationProvider>
+          <ParticlesCanvas />
+				  <Header />
+          {children}
+				</NetworkConfigurationProvider>
       </body>
     </html>
   );

@@ -11,6 +11,11 @@ import FaqView from "../views/faq";
 import CreateView from "../views/create";
 import TokenMetadata from "../views/tokenMetadata";
 import ContactView from "../views/contact";
+import AirdropView from "../views/airdrop";
+import SendTokenView from "../views/sendToken";
+import TokenExplorerView from "../views/tokenExplorer";
+import TokenManagerView from "../views/tokenManager";
+import EditMetadataView from "../views/editMetadata";
 
 const Home: NextPage = (props) => {
 	
@@ -20,6 +25,10 @@ const Home: NextPage = (props) => {
 	const [openContact, setOpenContact] = useState(false);
 	const [openAirdrop, setOpenAirdrop] = useState(false);
 	const [openSendTransaction, setOpenSendTransaction] = useState(false);
+	const [openSendToken, setOpenSendToken] = useState(false);
+  const [openTokenExplorer, setOpenTokenExplorer] = useState(false);
+  const [openTokenManager, setOpenTokenManager] = useState(false);
+  const [openEditMetadata, setOpenEditMetadata] = useState(false);
 	
 	return (
 		<>
@@ -69,6 +78,36 @@ const Home: NextPage = (props) => {
 				  <ContactView setOpenContact={setOpenContact} />
 				</div>
 			)}
+			
+			{openAirdrop && (
+        <div className="new_loader relative h-full bg-slate-900/40">
+          <AirdropView setOpenAirdrop={setOpenAirdrop} />
+        </div>
+      )}
+
+      {openSendToken && (
+        <div className="new_loader relative h-full bg-slate-900/40">
+          <SendTokenView setOpenSendToken={setOpenSendToken} />
+        </div>
+      )}
+
+      {openTokenExplorer && (
+        <div className="new_loader relative h-full bg-slate-900/40">
+          <TokenExplorerView setOpenTokenExplorer={setOpenTokenExplorer} />
+        </div>
+      )}
+
+      {openTokenManager && (
+        <div className="new_loader relative h-full bg-slate-900/40">
+          <TokenManagerView setOpenTokenManager={setOpenTokenManager} />
+        </div>
+      )}
+
+      {openEditMetadata && (
+        <div className="new_loader relative h-full bg-slate-900/40">
+          <EditMetadataView setOpenEditMetadata={setOpenEditMetadata} />
+        </div>
+      )}
 			
 			{/*
 			{openAirdrop && (

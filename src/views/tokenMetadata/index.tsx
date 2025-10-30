@@ -1,11 +1,13 @@
+
 import React, { FC, Dispatch, SetStateAction, useCallback, useState } from "react";
 import { useConnection } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
 import { Metadata, PROGRAM_ID } from "@metaplex-foundation/mpl-token-metadata";
-import { AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
 import { ClipLoader } from "react-spinners";
 import { notify } from "../../utils/notifications";
 import Branding from "../../components/Branding";
+import InputView from "../input";
 
 interface TokenMetadataProps {
   setOpenTokenMetadata: Dispatch<SetStateAction<boolean>>;
@@ -13,68 +15,49 @@ interface TokenMetadataProps {
 
 const TokenMetadata: FC<TokenMetadataProps> = ({ setOpenTokenMetadata }) => {
   const { connection } = useConnection();
-  const [tokenAddress, setTokenAddress] = useState("");
-  const [tokenMetadata, setTokenMetadata] = useState<any>(null);
-  const [logo, setLogo] = useState<string | null>(null);
-  const [isLoaded, setLoaded] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  
-  const getMetadata = useCallback(async (address: string) => {
-    if (!address) {
-      notify({ type: "error", message: "Masukkan alamat token terlebih dahulu" });
-      return;
-    }
-
-    setIsLoading(true);
-    
-    try {
-      const tokenMint = new PublicKey(address);
-      const metadataPDA = PublicKey.findProgramAddressSync(
-        [Buffer.from("metadata"), PROGRAM_ID.toBuffer(), tokenMint.toBuffer()],
-        PROGRAM_ID
-      )[0];
-      
-      const metadataAccount = await connection.getAccountInfo(metadataPDA);
-      
-      if (!metadataAccount) {
-        throw new Error("Metadata tidak ditemukan untuk token ini");
-      }
-      
-      const [metadata] = await Metadata.deserialize(metadataAccount.data);
-      
-      // Fetch logo dari URI metadata
-      if (metadata.data.uri) {
-        try {
-          const logoResponse = await fetch(metadata.data.uri);
-          const logoJson = await logoResponse.json();
-          setLogo(logoJson.image || null);
-        } catch (error) {
-          console.warn("Gagal mengambil logo:", error);
-          setLogo(null);
-        }
-      }
-      
-      setTokenMetadata(metadata.data);
-      setLoaded(true);
-      setTokenAddress("");
-      
-      notify({
-        type: "success",
-        message: "Berhasil mengambil metadata token 🎉"
-      });
-      
-    } catch (error: any) {
-      console.error("Metadata fetch error:", error);
-      notify({
-        type: "error", 
-        message: error.message || "Gagal mengambil metadata token. Pastikan alamat valid 😭"
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  }, [connection]);
-
-  return (
+	const [tokenAddress, setTokenAddress] = useState("");
+	const [tokenMetadata, setTokenMetadata] = useState(null);
+	const [logo, setLogo] = useState(null);
+	const [isLoaded, setLoaded] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+	
+	const getMetadata = useCallback(async (form) => {
+		setIsLoading(true);
+		
+		try {
+			const tokenMint = new PublicKey(form);
+			const metadataPDA = PublicKey.findProgramAddressSync(
+				[Buffer.from("metadata"), PROGRAM_ID.toBuffer(), tokenMint.toBuffer()],
+				PROGRAM_ID
+			);
+			
+			const metadataAccount = await connection.getAccountInfo(metadataPDA);
+			const [metadata, _] = await Metadata.deserialize(metadataAccount.data);
+			
+			let logoResponse = await fetch(metadata.data.uri);
+			let logoJson = await logoResponse.json();
+			let { image } = logoJson;
+			
+			setTokenMetadata({tokenMetadata, ...metadata.data});
+			setLogo(image);
+			setIsLoading(false);
+			setLoaded(true);
+			setTokenAddress("");
+			
+			notify({
+				type: "success",
+				message: "Berhasil mengambil metadata token🥳"
+			});
+			
+		} catch (error: any) {
+			notify({type: "error", message: "Gagal mengambil metadata token😭"});
+			setIsLoading(false);
+		}
+		
+	}, [tokenAddress]);
+	
+	
+	  return (
     <>
       {isLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
@@ -89,145 +72,116 @@ const TokenMetadata: FC<TokenMetadataProps> = ({ setOpenTokenMetadata }) => {
           </div>
         </div>
       )}
+			
+			{isLoaded ? (
+				<section className="flex w-full items-center py-6 px-4 lg:p-10 lg:h-screen">
+          <div className="container mx-auto max-w-5xl bg-slate-800/50 backdrop-blur-2xl rounded-2xl overflow-hidden">
+            <div className="grid gap-10 lg:grid-cols-2">
 
-      <div className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div className="bg-slate-900 rounded-3xl border border-slate-700 shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden">
-          <div className="flex flex-col lg:flex-row h-full">
-            
-            {/* Branding Section */}
-            <div className="lg:w-1/2 bg-gradient-to-br from-emerald-900/20 to-slate-800 p-8">
-              <Branding
-                image="/assets/branding.png"
-                title="Explorasi Metadata Token"
-                message="Temukan semua detail token Anda dengan mudah dan cepat di platform ECROP 100"
-              />
-            </div>
+              <div className="flex flex-col p-8 lg:p-10">
+                <h4 className="mb-4 text-2xl font-bold text-white">
+                  ECROP 100 - Token Metadata 
+                </h4>
+                <p className="text-gray-300 mb-8 text-sm">
+                 Dapatkan metadata lengkap dari token anda di jaringan solana.
+                </p>
 
-            {/* Content Section */}
-            <div className="lg:w-1/2 p-6 lg:p-8 overflow-y-auto">
-              <div className="flex justify-between items-start mb-6">
-                <div>
-                  <h2 className="text-2xl font-bold text-white">
-                    {isLoaded ? "Metadata Ditemukan!" : "Cari Metadata Token"}
-                  </h2>
-                  <p className="text-gray-400 mt-1">
-                    {isLoaded 
-                      ? "Berikut detail lengkap token Anda" 
-                      : "Masukkan alamat token untuk melihat metadata lengkap"
-                    }
-                  </p>
-                </div>
-                <button
-                  onClick={() => setOpenTokenMetadata(false)}
-                  className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
-                >
-                  <AiOutlineClose className="text-white text-xl" />
-                </button>
-              </div>
+                <InputView
+                  name="Alamat Token"
+                  placeholder="Masukan alamat token..."
+                  clickHandle={(e) => setTokenAddress(e.target.value)}
+                />
 
-              {!isLoaded ? (
-                // Search Form
-                <div className="space-y-6">
-                  <div className="relative">
-                    <input
-                      type="text"
-                      value={tokenAddress}
-                      onChange={(e) => setTokenAddress(e.target.value)}
-                      onKeyPress={(e) => e.key === 'Enter' && getMetadata(tokenAddress)}
-                      placeholder="Masukkan alamat token (contoh: 7xKX...)"
-                      className="w-full px-4 py-3 pl-12 bg-slate-800 border border-slate-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                    />
-                    <AiOutlineSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl" />
-                  </div>
-
+                <div className="mt-6">
                   <button
                     onClick={() => getMetadata(tokenAddress)}
-                    disabled={!tokenAddress}
-                    className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center space-x-2"
+                    className="w-full bg-gradient-to-r from-green-500 to-teal-500 text-white font-bold py-2 rounded-lg hover:opacity-90 transition-all"
                   >
-                    <AiOutlineSearch className="text-xl" />
-                    <span>Cari Metadata</span>
+                    Get Metadata
                   </button>
-
-                  {/* Tips */}
-                  <div className="bg-slate-800 rounded-xl p-4 border border-slate-700">
-                    <h4 className="text-emerald-400 font-semibold mb-2 flex items-center">
-                      💡 Tips
-                    </h4>
-                    <p className="text-gray-300 text-sm">
-                      Pastikan alamat token valid dan sudah terdeploy di jaringan Solana
-                    </p>
-                  </div>
                 </div>
-              ) : (
-                // Results View
-                <div className="space-y-6">
-                  {/* Token Logo */}
-                  {logo && (
-                    <div className="flex justify-center">
-                      <img
-                        src={logo}
-                        alt="Token Logo"
-                        className="w-20 h-20 rounded-2xl border-2 border-emerald-400/30 shadow-lg"
-                      />
-                    </div>
-                  )}
 
-                  {/* Metadata Details */}
-                  <div className="space-y-4">
-                    <div className="bg-slate-800 rounded-xl p-4 border border-slate-700">
-                      <label className="text-gray-400 text-sm font-medium">Nama Token</label>
-                      <p className="text-white font-semibold mt-1">
-                        {tokenMetadata?.name || "Tidak tersedia"}
-                      </p>
-                    </div>
-
-                    <div className="bg-slate-800 rounded-xl p-4 border border-slate-700">
-                      <label className="text-gray-400 text-sm font-medium">Symbol</label>
-                      <p className="text-white font-semibold mt-1">
-                        {tokenMetadata?.symbol || "Tidak tersedia"}
-                      </p>
-                    </div>
-
-                    <div className="bg-slate-800 rounded-xl p-4 border border-slate-700">
-                      <label className="text-gray-400 text-sm font-medium">URI Metadata</label>
-                      <p className="text-white text-sm font-mono break-all mt-1">
-                        {tokenMetadata?.uri || "Tidak tersedia"}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="space-y-3">
-                    {tokenMetadata?.uri && (
-                      <a
-                        href={tokenMetadata.uri}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="w-full bg-slate-700 hover:bg-slate-600 text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center space-x-2"
-                      >
-                        <span>Buka URI Metadata</span>
-                      </a>
-                    )}
-
-                    <button
-                      onClick={() => {
-                        setLoaded(false);
-                        setTokenMetadata(null);
-                        setLogo(null);
-                        setTokenAddress("");
-                      }}
-                      className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-xl transition-colors"
-                    >
-                      Cari Token Lain
-                    </button>
-                  </div>
+                <div className="mt-4 text-center">
+                  <button
+                    onClick={() => setOpenTokenMetadata(false)}
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 transition"
+                  >
+                    <AiOutlineClose className="text-white text-xl" />
+                  </button>
                 </div>
-              )}
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </section>
+				
+			) : (
+				<section className="flex w-full items-center py-6 px-4 lg:h-screen lg:p-10 ">
+          
+            <div className="container bg-slate-800/50 mx-auto max-w-5xl overflow-hidden rounded-2xl backdrop-blur-2xl shadow-2xl">
+              <div className="grid gap-10 lg:grid-cols-2">
+                {/* === BRANDING === */}
+                <Branding
+                  image="/assets/branding.png"
+                  title="Token Metadata Berhasil Diambil 🎉"
+                  message="Berikut detail metadata token anda di jaringan solana."
+                />
+        
+                {/* === KONTEN HASIL === */}
+                <div className="flex flex-col justify-center p-8 lg:p-10 text-center">
+                  
+                  {/* Gambar token */}
+                  <div className="flex items-center justify-center mb-6">
+                    <img
+                      src={logo}
+                      alt="token logo"
+                      className="h-32 w-32 rounded-full border-1 border-green-500 shadow-lg object-cover"
+                    />
+                  </div>
+									
+									<div className="bg-slate-900/60 rounded-lg p-3 mb-4">
+                    <p className="text-green-400 font-mono text-xs sm:text-sm break-all">
+                      {tokenMetadata?.name || "Nama token tidak diketahui!"}
+                    </p>
+                  </div>
+									
+									<div className="bg-slate-900/60 rounded-lg p-3 mb-4">
+                    <p className="text-green-400 font-mono text-xs sm:text-sm break-all">
+                      {tokenMetadata?.symbol || "Symbol token tidak diketahui!"}
+                    </p>
+                  </div>
+									
+									<div className="bg-slate-900/60 rounded-lg p-3 mb-4">
+                    <p className="text-green-400 font-mono text-xs sm:text-sm break-all">
+											{tokenMetadata?.uri || "URI token tidak diketahui!"}
+                    </p>
+                  </div>
+									
+                  {/* Tombol uri link */}
+                  <a
+                    href={tokenMetadata?.uri}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:opacity-90 transition px-6 py-2 rounded-lg text-white font-semibold w-full inline-flex justify-center items-center"
+                  >
+                    Buka URI
+                  </a>
+        
+                  {/* Tombol Tutup */}
+                  <div className="mt-4 text-center">
+                    <button
+                      onClick={() => setOpenTokenMetadata(false)}
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 transition"
+                    >
+                      <AiOutlineClose className="text-white text-xl" />
+                    </button>
+                  </div>
+									
+                </div>
+              </div>
+            </div>
+          
+        </section>
+			)}
     </>
   );
 };

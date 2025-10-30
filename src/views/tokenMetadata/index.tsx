@@ -29,7 +29,7 @@ const TokenMetadata: FC<TokenMetadataProps> = ({ setOpenTokenMetadata }) => {
 			const metadataPDA = PublicKey.findProgramAddressSync(
 				[Buffer.from("metadata"), PROGRAM_ID.toBuffer(), tokenMint.toBuffer()],
 				PROGRAM_ID
-			);
+			)[0];
 			
 			const metadataAccount = await connection.getAccountInfo(metadataPDA);
 			const [metadata, _] = await Metadata.deserialize(metadataAccount.data);

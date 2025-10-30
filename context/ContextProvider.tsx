@@ -43,7 +43,7 @@ const WalletContextProvider: FC<{children: ReactNode}> = ({children}) => {
 	if (network == "mainnet-beta") {
 		endpoint = "https://solana-mainnet.g.alchemy.com/v2/EGRd66pcOSpwu3HVIiBFu";
 	} else if (network == "devnet") {
-		endpoint = "https://solana-devnet.g.alchemy.com/v2/EGRd66pcOSpwu3HVIiBFu" || originEndPoint;
+		endpoint = "https://solana-devnet.g.alchemy.com/v2/EGRd66pcOSpwu3HVIiBFu";
 	} else {
 		endpoint = originEndPoint;
 	}

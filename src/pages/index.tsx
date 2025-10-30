@@ -45,6 +45,10 @@ const Home: NextPage = (props) => {
 				setOpenContact={setOpenContact}
 				setOpenAirdrop={setOpenAirdrop}
 				setOpenSendTransaction={setOpenSendTransaction}
+        setOpenTokenExplorer={setOpenTokenExplorer}
+        setOpenTokenManager={setOpenTokenManager}
+        setOpenSendToken={setOpenSendToken}
+        setOpenEditMetadata={setOpenEditMetadata}
 			/>
 			
 			<FeatureView

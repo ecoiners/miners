@@ -66,7 +66,7 @@ export default function Header() {
           <NetworkSwitcher />
 
           {/* === Mobile Menu === */}
-          <Sheet classNameName="p-10">
+          <Sheet>
             <SheetTrigger asChild>
               <Button
                 className="md:hidden hover:bg-green-500 text-white"

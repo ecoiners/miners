@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState, Dispatch, SetStateAction } from "react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { getParsedTokenAccountsByOwner, TOKEN_PROGRAM_ID } from "@solana/spl-token";
+import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import { AiOutlineClose } from "react-icons/ai";
 
 interface TokenExplorerViewProps {
@@ -23,15 +23,20 @@ const TokenExplorerView: FC<TokenExplorerViewProps> = ({ setOpenTokenExplorer })
     if (!publicKey) return;
     setLoading(true);
     try {
-      const accounts = await connection.getParsedTokenAccountsByOwner(publicKey, { programId: TOKEN_PROGRAM_ID });
+      // ✅ gunakan dari connection, bukan dari @solana/spl-token
+      const accounts = await connection.getParsedTokenAccountsByOwner(publicKey, {
+        programId: TOKEN_PROGRAM_ID,
+      });
+
       const data = accounts.value.map((acc) => ({
         mint: acc.account.data.parsed.info.mint,
         amount: acc.account.data.parsed.info.tokenAmount.uiAmountString,
         decimals: acc.account.data.parsed.info.tokenAmount.decimals,
       }));
+
       setTokens(data);
-    } catch {
-      console.error("Gagal ambil token list");
+    } catch (e) {
+      console.error("Gagal ambil token list:", e);
     } finally {
       setLoading(false);
     }

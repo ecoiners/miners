@@ -160,7 +160,7 @@ const Notification: React.FC<NotificationProps> = ({
                 rel="noreferrer"
                 className="inline-flex items-center gap-1.5 text-teal-400 hover:text-green-400 text-xs transition-colors"
               >
-                <NotificationSVG className="w-3 h-3" />
+                <NotificationSVG  className="h-3 w-3"/>
                 <span className="font-mono">
                   {txid.slice(0, 6)}...{txid.slice(txid.length - 6)}
                 </span>

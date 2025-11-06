@@ -1,0 +1,29 @@
+import FloatingShape from "./components/floating-shape";
+import { Routes, Route } from "react-router-dom";
+
+import Home from "./pages/home";
+import Login from './pages/login';
+import Register from './pages/register';
+import EmailVerification from "./pages/email-verify";
+import ForgotPassword from "./pages/forgot-password";
+
+function App() {
+	
+	return (
+		<div className="min-h-screen bg-gradient-to-br from-gray-900 via-green-900 to-emerald-900 flex items-center justify-center overflow-hidden">
+		  <FloatingShape color="bg-greeb-500" size="h-64 w-64" top="-5%" left="10%" delay={0}/>
+			<FloatingShape color="bg-emerald-500" size="h-48 w-48" top="70%" left="80%" delay={5} />
+			<FloatingShape color="bg-line-500" size="h-32 w-32" top="40%" left="-10%" delay={2} />
+			
+			<Routes>
+			  <Route path="/" element={<Home />} />
+				<Route path="/login" element={<Login/>}/>
+				<Route path="/register" element={<Register />} />
+				<Route path="/email-verify" element={<EmailVerification />} />
+				<Route path="/forgot-password" element={<ForgotPassword/>} />
+			</Routes>
+		</div>
+	)
+};
+
+export default App;

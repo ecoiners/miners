@@ -7,10 +7,12 @@ import Register from './pages/register';
 import EmailVerification from "./pages/email-verify";
 import ForgotPassword from "./pages/forgot-password";
 
+import Header from "./components/header"
 function App() {
 	
 	return (
 		<>
+			<Header/>
 			<Routes>
 			  <Route path="/" element={<Home />} />
 				<Route path="/login" element={<Login/>}/>

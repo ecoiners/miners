@@ -1,88 +1,105 @@
-import { motion } from "framer-motion";
 import { useState } from "react";
-import { User, Mail, Lock, Gift } from "lucide-react"; 
+import { User, Mail, Lock, Gift, Check, X, Eye, EyeOff } from "lucide-react"; 
 import { Link } from "react-router-dom";
-import { Input, PasswordStrengthMeter } from "../components/input";
+import { Input, PasswordStrengthMeter, PasswordInput } from "../components/input";
 
 function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [referralCode, setReferralCode] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleRegister = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
     
+    // Simulasi proses register
+    try {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      console.log({ username, email, password, referralCode });
+      // Tambahkan logika register di sini
+    } catch (error) {
+      console.error("Register error:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="max-w-md w-full bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden"
-    >
-      <div className="p-8">
-        <h2 className="text-3xl mb-6 font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-emerald-500">
-          Buat Akun
-        </h2>
+    <div className="min-h-screen flex items-center justify-center p-4 bg-base-100">
+      <div className="card w-full max-w-md bg-base-200 shadow-2xl">
+        <div className="card-body p-6 sm:p-8">
+          <h2 className="card-title text-3xl font-bold text-center mb-2 justify-center text-primary">
+            Buat Akun
+          </h2>
+          
+          <p className="text-center text-base-content text-opacity-70 mb-6">
+            Daftar untuk mulai menggunakan layanan kami
+          </p>
 
-        <form onSubmit={handleRegister}>
-          <Input
-            icon={User}
-            type="text"
-            placeholder="Masukkan nama pengguna"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <Input
-            icon={Mail}
-            type="email"
-            placeholder="Masukkan email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <Input
-            icon={Lock}
-            type="password"
-            placeholder="Masukkan kata sandi"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Input
-            icon={Gift}
-            type="text"
-            placeholder="Masukkan kode referral (opsional)"
-            value={referralCode}
-            onChange={(e) => setReferralCode(e.target.value)}
-          />
+          <form onSubmit={handleRegister}>
+            <Input
+              icon={User}
+              type="text"
+              placeholder="Masukkan nama pengguna"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+            
+            <Input
+              icon={Mail}
+              type="email"
+              placeholder="Masukkan email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            
+            <PasswordInput
+              icon={Lock}
+              placeholder="Masukkan kata sandi"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
 
-          {/* Indikator kekuatan password */}
-          <PasswordStrengthMeter password={password} />
+            <Input
+              icon={Gift}
+              type="text"
+              placeholder="Masukkan kode referral (opsional)"
+              value={referralCode}
+              onChange={(e) => setReferralCode(e.target.value)}
+            />
 
-          <motion.button
-            className="mt-5 py-3 px-4 w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white 
-                       font-bold rounded-lg shadow-lg hover:from-green-600 hover:to-emerald-700 
-                       focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 
-                       focus:ring-offset-gray-900 transition duration-200"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            type="submit"
-          >
-            Register 
-          </motion.button>
-        </form>
+            {/* Indikator kekuatan password */}
+            <PasswordStrengthMeter password={password} />
+
+            <div className="form-control mt-6">
+              <button 
+                className={`btn btn-primary ${isLoading ? 'loading' : ''}`}
+                type="submit"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Mendaftarkan...' : 'Daftar'}
+              </button>
+            </div>
+          </form>
+
+          <div className="divider text-base-content text-opacity-50">ATAU</div>
+
+          <div className="text-center">
+            <p className="text-sm text-base-content text-opacity-70">
+              Sudah punya akun?{" "}
+              <Link to="/login" className="link link-primary hover:link-hover font-semibold">
+                Login di sini
+              </Link>
+            </p>
+          </div>
+        </div>
       </div>
-
-      <div className="px-8 py-4 bg-gray-900 bg-opacity-50 flex justify-center">
-        <p className="text-sm text-gray-400">
-          Sudah punya akun?{" "}
-          <Link to="/login" className="text-green-400 hover:underline">
-            Login
-          </Link>
-        </p>
-      </div>
-    </motion.div>
+    </div>
   );
 }
 

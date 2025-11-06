@@ -1,19 +1,44 @@
-import { Check, X } from "lucide-react";
+import { useState } from "react";
+import { User, Mail, Lock, Gift, Check, X, Eye, EyeOff } from "lucide-react"; 
+import { Link } from "react-router-dom";
 
 // Komponen Input umum dengan ikon di kiri
-export const Input = ({ icon: Icon, ...props }) => {
+export const Input = ({ icon: Icon, type = "text", ...props }) => {
   return (
-    <div className="relative mb-6">
-      <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-        <Icon className="size-5 text-green-500" />
-      </div>
+    <div className="form-control w-full mb-4">
+      <label className="input input-bordered flex items-center gap-2 bg-base-200 border-base-300">
+        <Icon className="w-4 h-4 text-primary" />
+        <input 
+          type={type}
+          {...props} 
+          className="grow bg-transparent placeholder-opacity-70"
+        />
+      </label>
+    </div>
+  );
+};
 
-      <input
-        {...props}
-        className="pl-10 pr-3 py-2 w-full bg-gray-800 bg-opacity-50 rounded-lg border border-gray-700 
-                   focus:border-green-500 focus:ring-2 focus:ring-green-500 text-white placeholder-gray-400 
-                   transition duration-200"
-      />
+// Komponen Input Password dengan toggle visibility
+export const PasswordInput = ({ icon: Icon, ...props }) => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  return (
+    <div className="form-control w-full mb-4">
+      <label className="input input-bordered flex items-center gap-2 bg-base-200 border-base-300">
+        <Icon className="w-4 h-4 text-primary" />
+        <input 
+          type={showPassword ? "text" : "password"}
+          {...props} 
+          className="grow bg-transparent placeholder-opacity-70"
+        />
+        <button 
+          type="button"
+          className="btn btn-ghost btn-sm p-1 min-h-0 h-auto"
+          onClick={() => setShowPassword(!showPassword)}
+        >
+          {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+        </button>
+      </label>
     </div>
   );
 };
@@ -29,15 +54,15 @@ const PasswordCriteria = ({ password }) => {
   ];
 
   return (
-    <div className="mt-2 space-y-1">
+    <div className="mt-3 space-y-2">
       {criteria.map((item) => (
-        <div key={item.label} className="flex items-center text-xs">
+        <div key={item.label} className="flex items-center text-sm">
           {item.meter ? (
-            <Check className="size-4 text-green-500 mr-2" />
+            <Check className="w-4 h-4 text-success mr-2" />
           ) : (
-            <X className="size-4 text-gray-500 mr-2" />
+            <X className="w-4 h-4 text-error mr-2" />
           )}
-          <span className={item.meter ? "text-green-500" : "text-gray-500"}>
+          <span className={item.meter ? "text-success" : "text-base-content text-opacity-60"}>
             {item.label}
           </span>
         </div>
@@ -59,15 +84,23 @@ export const PasswordStrengthMeter = ({ password }) => {
 
   const strength = getStrength(password);
 
-  const getColors = (index) => {
-    if (strength === 0) return "bg-red-500";
-    if (strength === 1) return "bg-red-400";
-    if (strength === 2) return "bg-yellow-500";
-    if (strength === 3) return "bg-yellow-400";
-    return "bg-green-500";
+  const getStrengthColor = () => {
+    if (strength === 0) return "text-error";
+    if (strength === 1) return "text-error";
+    if (strength === 2) return "text-warning";
+    if (strength === 3) return "text-warning";
+    return "text-success";
   };
 
-  const getStrengthText = (strength) => {
+  const getProgressColor = () => {
+    if (strength === 0) return "bg-error";
+    if (strength === 1) return "bg-error";
+    if (strength === 2) return "bg-warning";
+    if (strength === 3) return "bg-warning";
+    return "bg-success";
+  };
+
+  const getStrengthText = () => {
     if (strength === 0) return "Sangat Lemah";
     if (strength === 1) return "Lemah";
     if (strength === 2) return "Cukup";
@@ -76,23 +109,22 @@ export const PasswordStrengthMeter = ({ password }) => {
   };
 
   return (
-    <div className="mt-2">
-      <div className="flex items-center justify-between mb-1">
-        <span className="text-xs text-gray-400">Kekuatan Password</span>
-        <span className="text-xs text-gray-400">{getStrengthText(strength)}</span>
+    <div className="mt-4 p-4 bg-base-200 rounded-lg">
+      <div className="flex items-center justify-between mb-3">
+        <span className="text-sm font-medium text-base-content">Kekuatan Password</span>
+        <span className={`text-sm font-bold ${getStrengthColor()}`}>
+          {getStrengthText()}
+        </span>
       </div>
 
-      <div className="flex space-x-1">
-        {[...Array(4)].map((_, index) => (
-          <div
-            key={index}
-            className={`h-1 w-1/4 rounded-full transition-colors duration-300 ${
-              index < strength ? getColors(strength) : "bg-gray-600"
-            }`}
-          />
-        ))}
-      </div>
+      {/* Progress Bar */}
+      <progress 
+        className={`progress w-full h-2 ${getProgressColor()}`} 
+        value={strength} 
+        max="4"
+      ></progress>
 
+      {/* Kriteria Password */}
       <PasswordCriteria password={password} />
     </div>
   );

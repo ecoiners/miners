@@ -22,13 +22,6 @@ const protectRoute = ({children}) => {
   return children;
 }
 
-const redirectAuthenticatedUser = ({children}) => {
-	const {isAuthenticated, user} = useAuthStore();
-	
-	if (isAuthenticated && user.isVerified) { return <Navigate to="/" replace /> }
-	
-  return children;
-}
 
 function App() {
 	
@@ -39,9 +32,8 @@ function App() {
 			  <Route path="/" element={<Home />} />
 				<Route path="/login" element={<Login/>}/>
 				<Route path="/register" element={
-					<redirectAuthenticatedUser>
+				
 					  <Register />
-					</redirectAuthenticatedUser>
 				} />
 				
 				<Route path="/verify-email" element={<EmailVerification />} />

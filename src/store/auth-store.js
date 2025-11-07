@@ -62,7 +62,7 @@ export const useAuthStore = create((set) => ({
 			set({user: response.data.user, isAuthenticated: true, isCheckAuth: false})
 		} catch (error) {
 			set({error: null, isCheckAuth: false, isAuthenticated: false});
-			throw error;
+			
 	  }
 	},
 	forgotPassword: async (email) => {

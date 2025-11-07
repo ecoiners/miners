@@ -1,53 +1,30 @@
-import { Toaster } from "react-hot-toast";
-import { useEffect } from "react";
-import { Routes, Route , Navigate} from "react-router-dom";
 
-import Home from "./pages/home";
-import Login from './pages/login';
-import Register from './pages/register';
-import EmailVerification from "./pages/email-verify";
-import ForgotPassword from "./pages/forgot-password";
-import ResetPassword from "./pages/reset-password";
-import Dashboard from "./pages/dashboard";
+import { Routes, Route } from "react-router-dom";
 
-import { useAuthStore } from "./store/auth-store";
-
-const ProtectRoute = ({children}) => {
-	const {isAuthenticated, user} = useAuthStore();
-	
-	if (!isAuthenticated) { return <Navigate to="/login" replace /> }
-	
-	if (!user.isVerified) { return <Navigate to="/verify-email" replace /> }
-	
-  return children;
-}
-
+import HomePage from "./pages/home";
+import LoginPage from './pages/login';
+import RegisterPage from './pages/register';
+import VerifyEmailPage from "./pages/email-verify";
+import BuyPage from "./pages/buy";
+import ResetPasswordPage from "./pages/reset-password";
+import ForgotPasswordPage from "./pages/forgot-password";
+import Header from "./components/header"
 
 function App() {
 	
-	
 	return (
 		<>
+		  <Header />
 			<Routes>
-			  <Route path="/" element={<Home />} />
-				<Route path="/login" element={<Login/>}/>
-				<Route path="/register" element={
+			  <Route path="/" element={<HomePage />} />
+				<Route path="/login" element={<LoginPage/>}/>
+				<Route path="/register" element={<RegisterPage />} />
+				<Route path="/email-verify" element={<VerifyEmailPage/>} />
+				<Route path="/buy" element={<BuyPage/>} />
 				
-					  <Register />
-				} />
-				
-				<Route path="/verify-email" element={<EmailVerification />} />
-				<Route path="/forgot-password" element={<ForgotPassword/>} />
-				<Route path="/reset-password" element={<ResetPassword/>}/>
-				
-				<Route path="/dashboard" element={
-					<ProtectRoute>
-					  <Dashboard/>
-					</ProtectRoute>
-				}/>
+				<Route path="/forgot-password" element={<ForgotPasswordPage />}/>
+				<Route path="/reset-password" element={<ResetPasswordPage />} />
 			</Routes>
-			
-			<Toaster />
 		</>
 	)
 };

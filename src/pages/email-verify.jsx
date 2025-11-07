@@ -1,108 +1,160 @@
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { useAuthStore } from "../store/auth-store";
-import toast from "react-hot-toast";
+// VerifyEmailPage.jsx
+import React, { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { 
+  ArrowRight, 
+  Mail,
+  Clock,
+  Globe
+} from 'lucide-react';
 
-const EmailVerification = () => {
-	const [code, setCode] = useState(["", "", "", "", "", ""]);
-	const inputRefs = useRef([]);
-	const navigate = useNavigate();
+export default function VerifyEmailPage() {
+  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [timer, setTimer] = useState(60);
+  const [canResend, setCanResend] = useState(false);
+  const inputRefs = useRef([]);
 
-	const { error, isLoading, verifyEmail } = useAuthStore();
+  useEffect(() => {
+    const countdown = setInterval(() => {
+      setTimer(prev => {
+        if (prev <= 1) {
+          setCanResend(true);
+          clearInterval(countdown);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
 
-	const handleChange = (index, value) => {
-		const newCode = [...code];
+    return () => clearInterval(countdown);
+  }, []);
 
-		// Handle pasted content
-		if (value.length > 1) {
-			const pastedCode = value.slice(0, 6).split("");
-			for (let i = 0; i < 6; i++) {
-				newCode[i] = pastedCode[i] || "";
-			}
-			setCode(newCode);
+  const handleOtpChange = (value, index) => {
+    if (!/^\d?$/.test(value)) return;
 
-			// Focus on the last non-empty input or the first empty one
-			const lastFilledIndex = newCode.findLastIndex((digit) => digit !== "");
-			const focusIndex = lastFilledIndex < 5 ? lastFilledIndex + 1 : 5;
-			inputRefs.current[focusIndex].focus();
-		} else {
-			newCode[index] = value;
-			setCode(newCode);
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
 
-			// Move focus to the next input field if value is entered
-			if (value && index < 5) {
-				inputRefs.current[index + 1].focus();
-			}
-		}
-	};
+    // Auto-focus next input
+    if (value && index < 5) {
+      inputRefs.current[index + 1].focus();
+    }
+  };
 
-	const handleKeyDown = (index, e) => {
-		if (e.key === "Backspace" && !code[index] && index > 0) {
-			inputRefs.current[index - 1].focus();
-		}
-	};
+  const handleKeyDown = (e, index) => {
+    if (e.key === 'Backspace' && !otp[index] && index > 0) {
+      inputRefs.current[index - 1].focus();
+    }
+  };
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		const verificationCode = code.join("");
-		try {
-			await verifyEmail(verificationCode);
-			navigate("/");
-			toast.success("Email verified successfully");
-		} catch (error) {
-			console.log(error);
-		}
-	};
+  const handlePaste = (e) => {
+    e.preventDefault();
+    const pasteData = e.clipboardData.getData('text').slice(0, 6);
+    if (/^\d+$/.test(pasteData)) {
+      const newOtp = pasteData.split('').concat(Array(6 - pasteData.length).fill(''));
+      setOtp(newOtp);
+      inputRefs.current[Math.min(pasteData.length, 5)].focus();
+    }
+  };
 
-	// Auto submit when all fields are filled
-	useEffect(() => {
-		if (code.every((digit) => digit !== "")) {
-			handleSubmit(new Event("submit"));
-		}
-	}, [code]);
+  const handleResend = () => {
+    setTimer(60);
+    setCanResend(false);
+    // Resend OTP logic here
+  };
 
-	return (
-		<div className='max-w-md w-full bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden'>
-			<motion.div
-				initial={{ opacity: 0, y: -50 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.5 }}
-				className='bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-2xl p-8 w-full max-w-md'
-			>
-				<h2 className='text-3xl font-bold mb-6 text-center bg-gradient-to-r from-green-400 to-emerald-500 text-transparent bg-clip-text'>
-					Verify Your Email
-				</h2>
-				<p className='text-center text-gray-300 mb-6'>Enter the 6-digit code sent to your email address.</p>
+  const handleVerify = () => {
+    // Verify OTP logic here
+    window.location.href = '/dashboard';
+  };
 
-				<form onSubmit={handleSubmit} className='space-y-6'>
-					<div className='flex justify-between'>
-						{code.map((digit, index) => (
-							<input
-								key={index}
-								ref={(el) => (inputRefs.current[index] = el)}
-								type='text'
-								maxLength='6'
-								value={digit}
-								onChange={(e) => handleChange(index, e.target.value)}
-								onKeyDown={(e) => handleKeyDown(index, e)}
-								className='w-12 h-12 text-center text-2xl font-bold bg-gray-700 text-white border-2 border-gray-600 rounded-lg focus:border-green-500 focus:outline-none'
-							/>
-						))}
-					</div>
-					{error && <p className='text-red-500 font-semibold mt-2'>{error}</p>}
-					<motion.button
-						whileHover={{ scale: 1.05 }}
-						whileTap={{ scale: 0.95 }}
-						type='submit'
-						disabled={isLoading || code.some((digit) => !digit)}
-						className='w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:from-green-600 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 disabled:opacity-50'
-					>
-						{isLoading ? "Verifying..." : "Verify Email"}
-					</motion.button>
-				</form>
-			</motion.div>
-		</div>
-	);
-};
-export default EmailVerification;
+  const isOtpComplete = otp.every(digit => digit !== '');
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 pt-20">
+      <div className="container mx-auto px-4 py-12">
+        <div className="max-w-md mx-auto">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <Link to="/" className="inline-flex items-center gap-2 mb-6">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                <Globe className="w-6 h-6 text-white" />
+              </div>
+              <span className="text-2xl font-bold text-white">ECROP 100</span>
+            </Link>
+            <div className="w-20 h-20 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Mail className="w-10 h-10 text-purple-400" />
+            </div>
+            <h1 className="text-3xl font-bold text-white mb-2">Verify Your Email</h1>
+            <p className="text-gray-300">
+              We've sent a 6-digit code to <span className="text-purple-400">user@example.com</span>
+            </p>
+          </div>
+
+          {/* OTP Form */}
+          <div className="card bg-gray-800/50 backdrop-blur-lg border border-purple-500/20 shadow-2xl">
+            <div className="card-body p-8">
+              {/* OTP Inputs */}
+              <div className="flex justify-center gap-3 mb-8">
+                {otp.map((digit, index) => (
+                  <input
+                    key={index}
+                    ref={el => inputRefs.current[index] = el}
+                    type="text"
+                    inputMode="numeric"
+                    maxLength="1"
+                    value={digit}
+                    onChange={(e) => handleOtpChange(e.target.value, index)}
+                    onKeyDown={(e) => handleKeyDown(e, index)}
+                    onPaste={handlePaste}
+                    className="input input-bordered w-14 h-14 text-center text-xl font-bold bg-gray-700 border-gray-600 text-white focus:border-purple-500"
+                  />
+                ))}
+              </div>
+
+              {/* Timer */}
+              <div className="text-center mb-6">
+                <div className="flex items-center justify-center gap-2 text-gray-400">
+                  <Clock className="w-4 h-4" />
+                  <span>Code expires in {timer}s</span>
+                </div>
+              </div>
+
+              {/* Verify Button */}
+              <button
+                onClick={handleVerify}
+                disabled={!isOtpComplete}
+                className="btn btn-primary btn-lg w-full bg-gradient-to-r from-purple-500 to-pink-500 border-0 text-white disabled:bg-gray-600"
+              >
+                Verify Email
+                <ArrowRight className="w-5 h-5" />
+              </button>
+
+              {/* Resend Code */}
+              <div className="text-center mt-6">
+                <p className="text-gray-400">
+                  Didn't receive the code?{' '}
+                  {canResend ? (
+                    <button onClick={handleResend} className="text-purple-400 hover:underline font-semibold">
+                      Resend Code
+                    </button>
+                  ) : (
+                    <span className="text-gray-500">Resend code in {timer}s</span>
+                  )}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Support */}
+          <div className="text-center mt-6">
+            <p className="text-gray-400 text-sm">
+              Having trouble? <a href="#" className="text-purple-400 hover:underline">Contact Support</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

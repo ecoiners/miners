@@ -15,9 +15,9 @@ import { useAuthStore } from "./store/auth-store";
 const protectRoute = ({children}) => {
 	const {isAuthenticated, user} = useAuthStore();
 	
-	if (!isAuthenticated) return <Navigate to="/login" replace />
+	if (!isAuthenticated) { return <Navigate to="/login" replace /> }
 	
-	if (!user.isVerified) return <Navigate to="/verify-email" replace />
+	if (!user.isVerified) { return <Navigate to="/verify-email" replace /> }
 	
   return children;
 }
@@ -25,7 +25,7 @@ const protectRoute = ({children}) => {
 const redirectAuthenticatedUser = ({children}) => {
 	const {isAuthenticated, user} = useAuthStore();
 	
-	if (isAuthenticated && user.isVerified) return <Navigate to="/" replace />
+	if (isAuthenticated && user.isVerified) { return <Navigate to="/" replace /> }
 	
   return children;
 }

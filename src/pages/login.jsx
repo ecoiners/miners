@@ -1,95 +1,79 @@
 import { useState } from "react";
-import { Mail, Lock } from "lucide-react";
+import { motion } from "framer-motion";
+import { Mail, Lock, Loader } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Input, PasswordInput } from "../components/input";
+
+
+import { Input } from "../components/input";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    setIsLoading(true);
-    
-    // Simulasi proses login
-    try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log({ email, password });
-      // Tambahkan logika login di sini
-    } catch (error) {
-      console.error("Login error:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }
-  
-  return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-base-100">
-      <div className="card w-full max-w-md bg-base-200 shadow-2xl">
-        <div className="card-body p-6 sm:p-8">
-          <h2 className="card-title text-3xl font-bold text-center mb-2 justify-center text-primary">
-            Welcome Back
-          </h2>
-          
-          <p className="text-center text-base-content text-opacity-70 mb-6">
-            Masuk ke akun Anda untuk melanjutkan
-          </p>
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const isLoading = false;
+	
+	const handleLogin = (event) => {
+		event.preventDefault();
+		
+	}
+	
+	return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="max-w-md w-full bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden"
+    >
+      <div className="p-8">
+        <h2 className="text-3xl mb-6 font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-emerald-500">
+          Welcome Back
+        </h2>
 
-          <form onSubmit={handleLogin}>
-            <Input
-              icon={Mail}
-              type="email"
-              placeholder="Masukkan email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            
-            <PasswordInput
-              icon={Lock}
-              placeholder="Masukkan kata sandi"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            
-            <div className="flex justify-end mb-4">
-              <Link 
-                to="/forgot-password" 
-                className="text-sm link link-primary hover:link-hover"
-              >
-                Lupa password?
-              </Link>
-            </div>
-            
-            <div className="form-control">
-              <button 
-                className={`btn btn-primary ${isLoading ? 'loading' : ''}`}
-                type="submit"
-                disabled={isLoading}
-              >
-                {isLoading ? 'Masuk...' : 'Login'}
-              </button>
-            </div>
-          </form>
-
-          <div className="divider text-base-content text-opacity-50">ATAU</div>
-
-          <div className="text-center">
-            <p className="text-sm text-base-content text-opacity-70">
-              Belum punya akun?{" "}
-              <Link 
-                to="/register" 
-                className="link link-primary hover:link-hover font-semibold"
-              >
-                Daftar di sini
-              </Link>
-            </p>
-          </div>
-        </div>
+        <form onSubmit={handleLogin}>
+          <Input
+            icon={Mail}
+            type="email"
+            placeholder="Masukkan email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            icon={Lock}
+            type="password"
+            placeholder="Masukkan kata sandi"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+					
+					<div className="flex items-center mb-6">
+					  <Link to="/forgot-password" className="text-sm text-green-400 hover:underline">
+						  Lupa password
+						</Link>
+					</div>
+					
+          <motion.button
+            className="mt-5 py-3 px-4 w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white 
+                       font-bold rounded-lg shadow-lg hover:from-green-600 hover:to-emerald-700 
+                       focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 
+                       focus:ring-offset-gray-900 transition duration-200"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            type="submit"
+						disabled={isLoading}
+          >
+					  {isLoading ? <Loader className="h-6 w-6 text-white animate-spin mx-auto"/> : "Login"}
+          </motion.button>
+        </form>
       </div>
-    </div>
+
+      <div className="px-8 py-4 bg-gray-900 bg-opacity-50 flex justify-center">
+        <p className="text-sm text-gray-400">
+          Belum punya akun?{" "}
+          <Link to="/register" className="text-green-400 hover:underline">
+            Register
+          </Link>
+        </p>
+      </div>
+    </motion.div>
   );
 };
 

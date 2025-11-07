@@ -1,153 +1,79 @@
+import { motion } from "framer-motion";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Mail, ArrowLeft, CheckCircle } from "lucide-react";
-import { Input } from "../components/input";
+import { useAuthStore } from "../store/auth-store";
+import Input from "../components/Input";
+import { ArrowLeft, Loader, Mail } from "lucide-react";
+import { Link } from "react-router-dom";
 
-function ForgotPassword() {
-  const [email, setEmail] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const navigate = useNavigate();
+const ForgotPassword = () => {
+	const [email, setEmail] = useState("");
+	const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
+	const { isLoading, forgotPassword } = useAuthStore();
 
-    try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log("Reset password email sent to:", email);
-      setIsSubmitted(true);
-    } catch (error) {
-      console.error("Error sending reset email:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		await forgotPassword(email);
+		setIsSubmitted(true);
+	};
 
-  const handleBackToLogin = () => {
-    navigate("/login");
-  };
+	return (
+		<motion.div
+			initial={{ opacity: 0, y: 20 }}
+			animate={{ opacity: 1, y: 0 }}
+			transition={{ duration: 0.5 }}
+			className='max-w-md w-full bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden'
+		>
+			<div className='p-8'>
+				<h2 className='text-3xl font-bold mb-6 text-center bg-gradient-to-r from-green-400 to-emerald-500 text-transparent bg-clip-text'>
+					Forgot Password
+				</h2>
 
-  if (isSubmitted) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-base-100">
-        <div className="card w-full max-w-md bg-base-200 shadow-2xl">
-          <div className="card-body p-6 sm:p-8 text-center">
-            <div className="w-16 h-16 bg-success bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <CheckCircle className="w-8 h-8 text-success" />
-            </div>
-            
-            <h2 className="card-title text-2xl font-bold justify-center text-success mb-2">
-              Email Terkirim!
-            </h2>
-            
-            <p className="text-base-content text-opacity-70 mb-2">
-              Kami telah mengirim instruksi reset password ke:
-            </p>
-            
-            <p className="font-semibold text-primary mb-6">{email}</p>
-            
-            <p className="text-sm text-base-content text-opacity-70 mb-6">
-              Silakan periksa inbox email Anda dan ikuti petunjuk untuk mereset password Anda.
-            </p>
+				{!isSubmitted ? (
+					<form onSubmit={handleSubmit}>
+						<p className='text-gray-300 mb-6 text-center'>
+							Enter your email address and we'll send you a link to reset your password.
+						</p>
+						<Input
+							icon={Mail}
+							type='email'
+							placeholder='Email Address'
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+							required
+						/>
+						<motion.button
+							whileHover={{ scale: 1.02 }}
+							whileTap={{ scale: 0.98 }}
+							className='w-full py-3 px-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-lg shadow-lg hover:from-green-600 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200'
+							type='submit'
+						>
+							{isLoading ? <Loader className='size-6 animate-spin mx-auto' /> : "Send Reset Link"}
+						</motion.button>
+					</form>
+				) : (
+					<div className='text-center'>
+						<motion.div
+							initial={{ scale: 0 }}
+							animate={{ scale: 1 }}
+							transition={{ type: "spring", stiffness: 500, damping: 30 }}
+							className='w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4'
+						>
+							<Mail className='h-8 w-8 text-white' />
+						</motion.div>
+						<p className='text-gray-300 mb-6'>
+							If an account exists for {email}, you will receive a password reset link shortly.
+						</p>
+					</div>
+				)}
+			</div>
 
-            <div className="space-y-3">
-              <button
-                onClick={handleBackToLogin}
-                className="btn btn-primary w-full"
-              >
-                Kembali ke Login
-              </button>
-              
-              <button
-                onClick={() => setIsSubmitted(false)}
-                className="btn btn-ghost w-full"
-              >
-                Kirim Ulang Email
-              </button>
-            </div>
-
-            <div className="divider text-base-content text-opacity-50">BUTUH BANTUAN?</div>
-
-            <div className="text-center">
-              <p className="text-sm text-base-content text-opacity-70">
-                Tidak menerima email?{" "}
-                <button 
-                  onClick={() => setIsSubmitted(false)}
-                  className="link link-primary hover:link-hover font-semibold"
-                >
-                  Klik di sini
-                </button>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-base-100">
-      <div className="card w-full max-w-md bg-base-200 shadow-2xl">
-        <div className="card-body p-6 sm:p-8">
-          <div className="text-center mb-2">
-            <div className="w-16 h-16 bg-primary bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Mail className="w-8 h-8 text-primary" />
-            </div>
-            <h2 className="card-title text-2xl font-bold justify-center text-primary">
-              Lupa Password
-            </h2>
-          </div>
-
-          <p className="text-center text-base-content text-opacity-70 mb-6">
-            Masukkan email Anda yang terdaftar. Kami akan mengirim instruksi untuk mereset password Anda.
-          </p>
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <Input
-              icon={Mail}
-              type="email"
-              placeholder="Masukkan email Anda"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-
-            <div className="form-control">
-              <button
-                type="submit"
-                className={`btn btn-primary ${isLoading ? 'loading' : ''}`}
-                disabled={!email || isLoading}
-              >
-                {isLoading ? 'Mengirim...' : 'Kirim Instruksi Reset'}
-              </button>
-            </div>
-          </form>
-
-          <div className="text-center mt-4">
-            <button
-              onClick={handleBackToLogin}
-              className="btn btn-ghost btn-sm gap-2"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Kembali ke Login
-            </button>
-          </div>
-
-          <div className="divider text-base-content text-opacity-50">BUTUH BANTUAN?</div>
-
-          <div className="text-center">
-            <p className="text-sm text-base-content text-opacity-70">
-              Masih mengalami masalah?{" "}
-              <button className="link link-primary hover:link-hover font-semibold">
-                Hubungi Support
-              </button>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
+			<div className='px-8 py-4 bg-gray-900 bg-opacity-50 flex justify-center'>
+				<Link to={"/login"} className='text-sm text-green-400 hover:underline flex items-center'>
+					<ArrowLeft className='h-4 w-4 mr-2' /> Back to Login
+				</Link>
+			</div>
+		</motion.div>
+	);
+};
 export default ForgotPassword;

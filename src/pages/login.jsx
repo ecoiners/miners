@@ -1,19 +1,27 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Lock, Loader } from "lucide-react";
-import { Link } from "react-router-dom";
-
+import { Link , useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/auth-store";
 
 import { Input } from "../components/input";
 
 function Login() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const isLoading = false;
+	const navigate = useNavigate()
+	
+	const {login, error, isLoading} = useAuthStore()
 	
 	const handleLogin = (event) => {
 		event.preventDefault();
 		
+		try {
+			await login(email, password);
+			navigate("/")
+		} catch (error) {
+			console.error(error)
+		}
 	}
 	
 	return (
@@ -50,6 +58,8 @@ function Login() {
 						</Link>
 					</div>
 					
+					{error && <p className="text-red-500 font-semibold mt-2">{error}</p>}
+					
           <motion.button
             className="mt-5 py-3 px-4 w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white 
                        font-bold rounded-lg shadow-lg hover:from-green-600 hover:to-emerald-700 
@@ -60,7 +70,7 @@ function Login() {
             type="submit"
 						disabled={isLoading}
           >
-					  {isLoading ? <Loader className="h-6 w-6 text-white animate-spin mx-auto"/> : "Login"}
+					  {isLoading ? <Loader className="animate-spin mx-auto" size={24}/> : "Login"}
           </motion.button>
         </form>
       </div>

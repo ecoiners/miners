@@ -83,7 +83,7 @@ function Register() {
             type="submit"
 						disabled={isLoading}
           >
-            {isLoading ? <Loader className="animate-spin mx-auto" size={24}} /> : "Register"}
+            {isLoading ? <Loader className="animate-spin mx-auto" size={24} /> : "Register"}
           </motion.button>
         </form>
       </div>

@@ -12,7 +12,7 @@ import Dashboard from "./pages/dashboard";
 
 import { useAuthStore } from "./store/auth-store";
 
-const protectRoute = ({children}) => {
+const ProtectRoute = ({children}) => {
 	const {isAuthenticated, user} = useAuthStore();
 	
 	if (!isAuthenticated) { return <Navigate to="/login" replace /> }
@@ -41,9 +41,9 @@ function App() {
 				<Route path="/reset-password" element={<ResetPassword/>}/>
 				
 				<Route path="/dashboard" element={
-					<protectRoute>
+					<ProtectRoute>
 					  <Dashboard/>
-					</protectRoute>
+					</ProtectRoute>
 				}/>
 			</Routes>
 			

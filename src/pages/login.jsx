@@ -13,7 +13,7 @@ function Login() {
 	
 	const {login, error, isLoading} = useAuthStore()
 	
-	const handleLogin = (event) => {
+	const handleLogin = async (event) => {
 		event.preventDefault();
 		
 		try {

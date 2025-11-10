@@ -1,26 +1,35 @@
-import GradientSpheres from "../components/GradientSpheres";
-import TestimonialCard from "../components/TestimonialCard";
-import TitleHeader from "../components/TitleHeader";
-import { testimonials } from "../constants";
+import { testimonials } from "../constants/index.jsx";
+import TestimonialItem from "../components/TestimonialItem.jsx";
 
 const Testimonials = () => {
-  return (
-    <section id="testimonials" className="flex-center relative md:p-0 px-5">
-      <GradientSpheres
-        sphere1Class="testimonial-gradient-sphere testimonial-sphere-1"
-        sphere2Class="testimonial-gradient-sphere testimonial-sphere-2"
-      />
+  const halfLength = Math.floor(testimonials.length / 2);
 
-      <div className="w-full h-full container relative z-10 md:my-40 my-20">
-        <TitleHeader
-          title="TESTIMONIALS"
-          number="03"
-          text="Watch our clients are saying about us"
-        />
-        <div className="mt-20">
-          <div className="grid md:grid-cols-2 gap-5">
-            {testimonials.map((testimonial, index) => (
-              <TestimonialCard key={index} testimonial={testimonial} />
+  return (
+    <section className="relative z-2 py-24 md:py-28 lg:py-40">
+      <div className="container block lg:flex">
+        <div className="testimonials_head-res relative z-2 mr-20 flex-300">
+          <p className="caption mb-5 max-md:mb-2.5">Wall of Love</p>
+          <h3 className="h3 max-md:h5 text-p4">Words from our fans</h3>
+        </div>
+
+        <div className="testimonials_inner-after testimonials_inner-before relative -my-12 -mr-3 flex items-start max-lg:static max-md:block">
+          <div className="testimonials_group-after flex-50">
+            {testimonials.slice(0, halfLength).map((testimonial) => (
+              <TestimonialItem
+                key={testimonial.id}
+                item={testimonial}
+                containerClassName="last:after:hidden last:after:max-md:block"
+              />
+            ))}
+          </div>
+
+          <div className="flex-50">
+            {testimonials.slice(halfLength).map((testimonial) => (
+              <TestimonialItem
+                key={testimonial.id}
+                item={testimonial}
+                containerClassName="last:after:hidden after:right-auto after:left-0 after:max-md:-left-4 md:px-12"
+              />
             ))}
           </div>
         </div>

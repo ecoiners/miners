@@ -1,49 +1,36 @@
-import GradientSpheres from "../components/GradientSpheres";
-import HeroExperience from "../components/HeroExperience";
+import { Element, Link as LinkScroll } from "react-scroll";
+import Button from "../components/Button.jsx";
 
 const Hero = () => {
   return (
-    <section
-      id="home"
-      className="w-screen h-dvh overflow-hidden relative text-white-50 md:p-0 px-5"
-    >
-      <div className="gradient-box w-full h-96 absolute bottom-0 left-0 z-20"></div>
-      <GradientSpheres
-        sphere1Class="gradient-sphere sphere-1"
-        sphere2Class="gradient-sphere sphere-2"
-      />
-
-      <div className="w-full h-full flex-center">
-        <div className="container relative w-full h-full">
-          <div className="md:mt-40 mt-20">
-            <p className="font md:text-2xl text-base">
-              👋 Hey, I&apos;m Here
-            </p>
-            <h1 className="font-bold md:text-9xl text-5xl">DAVID JHONSAN</h1>
-            <h1 className="font-bold md:text-9xl text-5xl">CREATIVE</h1>
-          </div>
-          <div className="absolute w-full z-30 bottom-20 right-0">
-            <div className="flex justify-between items-end">
-              <div className="flex flex-col items-center md:gap-5 gap-1">
-                <p className="md:text-base text-xs">Explore</p>
-                <img
-                  src="images/arrowdown.svg"
-                  alt="arrowdown"
-                  className="size-7 animate-bounce"
-                />
-              </div>
-              <div className="flex flex-col items-end">
-                <img src="/images/shape.svg" alt="shape" />
-                <h1 className="font-bold md:text-9xl text-5xl">DEVELOPER</h1>
-              </div>
+    <section className="relative pt-60 pb-40 max-lg:pt-52 max-lg:pb-36 max-md:pt-36 max-md:pb-32">
+      <Element name="hero">
+        <div className="container">
+          <div className="relative z-2 max-w-512 max-lg:max-w-388">
+            <div className="caption small-2 uppercase text-p3">
+              Video Editing
             </div>
+            <h1 className="mb-6 h1 text-p4 uppercase max-lg:mb-7 max-lg:h2 max-md:mb-4 max-md:text-5xl max-md:leading-12">
+              Amazingly simple
+            </h1>
+            <p className="max-w-440 mb-14 body-1 max-md:mb-10">
+              We designed XORA AI Video Editor to be an easy to use, quick to
+              learn, and surprisingly powerful.
+            </p>
+            <LinkScroll to="features" offset={-100} spy smooth>
+              <Button icon="/images/zap.svg">Try it now</Button>
+            </LinkScroll>
+          </div>
+
+          <div className="absolute -top-32 left-[calc(50%-340px)] w-[1230px] pointer-events-none hero-img_res">
+            <img
+              src="/images/hero.png"
+              className="size-1230 max-lg:h-auto"
+              alt="hero"
+            />
           </div>
         </div>
-      </div>
-
-      <div className="w-full h-full absolute top-0 left-0">
-        <HeroExperience />
-      </div>
+      </Element>
     </section>
   );
 };

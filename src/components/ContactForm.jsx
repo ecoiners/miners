@@ -42,7 +42,7 @@ const ContactForm = () => {
       };
 
       const serviceID = import.meta.env.VITE_EMAIL_SERVICE_ID || "";
-      const templateID = import.meta.env.VITE_EMAIL_TEMPLATE_ID || ""];
+      const templateID = import.meta.env.VITE_EMAIL_TEMPLATE_ID || "";
       const userID = import.meta.env.VITE_EMAIL_PUBLIC_KEY || "";
 
       await emailjs.send(serviceID, templateID, payload, {

@@ -17,21 +17,17 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
 
-  const navItems = {
-    ecosystem: {
+  // ✅ Ganti dari object ke array, biar bisa di-map dengan benar
+  const navItems = [
+    {
       title: "Ecosystem",
-      columns: [
-        {
-          title: "Core Technology",
-          links: [
-            { icon: <Activity className="text-fuchsia-500 w-4 h-4" />, label: "ECROP AI", href: "#ai" },
-            { icon: <Cpu className="text-indigo-500 w-4 h-4" />, label: "ECROP VM", href: "#vm" },
-            { icon: <Layers className="text-fuchsia-500 w-4 h-4" />, label: "ECROP Framework 100", href: "#framework" },
-          ],
-        },
+      links: [
+        { icon: <Activity className="text-fuchsia-500 w-4 h-4" />, label: "ECROP AI", href: "#ai" },
+        { icon: <Cpu className="text-indigo-500 w-4 h-4" />, label: "ECROP VM", href: "#vm" },
+        { icon: <Layers className="text-fuchsia-500 w-4 h-4" />, label: "ECROP Framework 100", href: "#framework" },
       ],
     },
-    app: {
+    {
       title: "Applications",
       links: [
         { icon: <Code className="text-fuchsia-500 w-4 h-4" />, label: "How To Buy", href: "#buy" },
@@ -39,7 +35,7 @@ export default function Navbar() {
         { icon: <Map className="text-fuchsia-500 w-4 h-4" />, label: "ECROP Wallet", href: "#wallet" },
       ],
     },
-    sosmed: {
+    {
       title: "Sosmed 100",
       links: [
         { icon: <FileText className="text-indigo-500 w-4 h-4" />, label: "Create Post", href: "/create" },
@@ -47,7 +43,7 @@ export default function Navbar() {
         { icon: <Compass className="text-indigo-500 w-4 h-4" />, label: "Create Community", href: "#a" },
       ],
     },
-  };
+  ];
 
   return (
     <header className="fixed top-0 left-0 w-full bg-base-100/80 backdrop-blur-md border-b border-base-300 z-50">
@@ -60,8 +56,8 @@ export default function Navbar() {
 
         {/* Desktop Menu */}
         <nav className="hidden md:flex items-center gap-6">
-          {Object.entries(navItems).map(([key, section]) => (
-            <div key={key} className="dropdown dropdown-hover">
+          {navItems.map((section) => (
+            <div key={section.title} className="dropdown dropdown-hover">
               <div
                 tabIndex={0}
                 role="button"
@@ -70,49 +66,25 @@ export default function Navbar() {
                 {section.title}
               </div>
 
-              {/* Dropdown Content */}
+              {/* Dropdown Menu */}
               <div
                 tabIndex={0}
-                className="dropdown-content z-[1] p-4 shadow-xl bg-base-200 rounded-lg w-64"
+                className="dropdown-content z-[1] p-4 shadow-xl bg-base-200 rounded-lg w-56"
               >
-                {section.columns ? (
-                  section.columns.map((col, i) => (
-                    <div key={i}>
-                      <h4 className="text-sm font-semibold mb-2 text-primary">
-                        {col.title}
-                      </h4>
-                      {col.links.map((link, idx) => (
-                        <Link
-                          key={idx}
-                          to={link.href}
-                          className={`flex items-center gap-2 py-1 rounded-md transition ${
-                            location.pathname === link.href
-                              ? "text-primary"
-                              : "hover:text-primary"
-                          }`}
-                        >
-                          {link.icon}
-                          <span>{link.label}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  ))
-                ) : (
-                  section.links.map((link, idx) => (
-                    <Link
-                      key={idx}
-                      to={link.href}
-                      className={`flex items-center gap-2 py-1 rounded-md transition ${
-                        location.pathname === link.href
-                          ? "text-primary"
-                          : "hover:text-primary"
-                      }`}
-                    >
-                      {link.icon}
-                      <span>{link.label}</span>
-                    </Link>
-                  ))
-                )}
+                {section.links.map((link) => (
+                  <Link
+                    key={link.label}
+                    to={link.href}
+                    className={`flex items-center gap-2 py-1 rounded-md transition ${
+                      location.pathname === link.href
+                        ? "text-primary font-semibold"
+                        : "hover:text-primary"
+                    }`}
+                  >
+                    {link.icon}
+                    <span>{link.label}</span>
+                  </Link>
+                ))}
               </div>
             </div>
           ))}
@@ -130,44 +102,26 @@ export default function Navbar() {
       {/* Mobile Dropdown */}
       {menuOpen && (
         <div className="md:hidden bg-base-200 border-t border-base-300 animate-in slide-in-from-top p-4">
-          {Object.entries(navItems).map(([key, section]) => (
-            <div key={key} className="mb-4">
+          {navItems.map((section) => (
+            <div key={section.title} className="mb-4">
               <h3 className="font-semibold text-primary mb-2">
                 {section.title}
               </h3>
-              {section.columns
-                ? section.columns.flatMap((col) =>
-                    col.links.map((link, idx) => (
-                      <Link
-                        key={idx}
-                        to={link.href}
-                        onClick={() => setMenuOpen(false)}
-                        className={`flex items-center gap-2 py-1 rounded-md transition ${
-                          location.pathname === link.href
-                            ? "text-primary"
-                            : "hover:text-primary"
-                        }`}
-                      >
-                        {link.icon}
-                        <span>{link.label}</span>
-                      </Link>
-                    ))
-                  )
-                : section.links.map((link, idx) => (
-                    <Link
-                      key={idx}
-                      to={link.href}
-                      onClick={() => setMenuOpen(false)}
-                      className={`flex items-center gap-2 py-1 rounded-md transition ${
-                        location.pathname === link.href
-                          ? "text-primary"
-                          : "hover:text-primary"
-                      }`}
-                    >
-                      {link.icon}
-                      <span>{link.label}</span>
-                    </Link>
-                  ))}
+              {section.links.map((link) => (
+                <Link
+                  key={link.label}
+                  to={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  className={`flex items-center gap-2 py-1 rounded-md transition ${
+                    location.pathname === link.href
+                      ? "text-primary font-semibold"
+                      : "hover:text-primary"
+                  }`}
+                >
+                  {link.icon}
+                  <span>{link.label}</span>
+                </Link>
+              ))}
             </div>
           ))}
         </div>
